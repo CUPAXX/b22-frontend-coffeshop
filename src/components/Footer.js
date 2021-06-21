@@ -1,27 +1,16 @@
-import './style.css';
 import React from 'react';
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
-import Home from './page/Home'
-import Product from './page/Product';
-import YourCart from './page/YourCart'
-import History from './page/History'
-import Login from './page/Login'
-import SignUp from './page/SignUp'
-import ForgotP from './page/ForgotP'
-import Profile from './page/Profile'
-import Detail from './page/Detail'
-import { connect } from 'react-redux'
-import Navbar from './components/navbar';
-import PrivateRoute from './components/PrivateRoute';
+import { Link } from 'react-router-dom';
+import logo from '../bg/logo.png'
 
-const Footer = () => {
+export default function Footer () {
   return (
-    <div className="z-10 relative bg-gray-100 -mt-40 pb-20 ">
+        <React.Fragment>
+        <div className="z-10 relative bg-gray-100 -mt-40 pb-20 ">
         <div className="flex flex-row pt-32 mx-32 items-center">
             <div className="flex-1 flex flex-col space-y-4">
                 <div className="flex flex-row items-center">
                     <Link to="/" className="block">
-                        <img className="h-6" src="assets/logo.png" alt=""/>
+                        <img className="h-6" src={logo}/>
                       </Link>
                       <Link to="/" className="block font-extrabold ml-4 pt-1">Coffee Shop</Link>
 
@@ -63,44 +52,6 @@ const Footer = () => {
             </div>
         </div>
     </div>
-  )
+        </React.Fragment>
+  );
 }
-
-class App extends React.Component {
-  render () {
-    const { onAuth } = this.props.auth
-    return (
-      <BrowserRouter>
-      {!onAuth && <Navbar />}
-      <Switch>
-        <Route path="/" exact component={Home}/>
-        {/* <Route path="/yourcart" component={YourCart}/> */}
-        {/* <Route path="/history" component={History}/> */}
-        {/* <Route path="/profile" component={Profile}/> */}
-        <PrivateRoute path="/yourcart">
-          <YourCart/>
-        </PrivateRoute>
-        <PrivateRoute path="/history">
-          <History/>
-        </PrivateRoute>
-        <PrivateRoute path="/profile">
-          <Profile/>
-        </PrivateRoute>
-        <Route path="/login" component={Login}/>
-        <Route path="/signup" component={SignUp}/>
-        <Route path="/forgot" component={ForgotP}/>
-        <Route path="/product" exact component={Product}/>
-        <Route path="/product/:id" component={Product}/>
-        <Route path="/productdetail/:id" component={Detail}/>
-      </Switch>
-      <Footer />
-      </BrowserRouter>
-    )
-  }
-}
-
-const mapStateProps = state => ({
-  auth: state.auth
-})
-
-export default connect(mapStateProps)(App)

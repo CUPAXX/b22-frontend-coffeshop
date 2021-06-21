@@ -1,0 +1,153 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { getDetail } from '../redux/actions/item'
+
+// import axios from 'axios'
+
+class Detail extends Component {
+  // state = {
+  //   data: [],
+  //   statePrice: [],
+  //   stockku: 0,
+  //   stockBefore: 0
+  // }
+
+  // getData = async () => {
+  //   const { data } = await axios.get(`http://localhost:8080/item/${this.props.match.params.id}`)
+  //   this.setState({ data: data.results }, () => {
+  //     const getPrice = this.state.data
+  //     this.setState({ statePrice: getPrice[0].end_price })
+  //     const getStockBf = this.state.data
+  //     this.setState({ stockBefore: getStockBf[0].stock })
+  //     const getStock = this.state.data
+  //     this.setState({ stockku: getStock[0].stock })
+  //   })
+  // }
+
+  // getIdVariants (id, prices) {
+  //   const addData = id && prices
+  //   this.setState({ statePrice: addData })
+  // }
+
+  tambah = () => {
+    const test = this.state.stockku
+    const test2 = this.state.stockBefore
+    if (test >= test2) {
+      window.alert('You Already bought all our stock')
+    } else {
+      this.setState({ stockku: test + 1 })
+    }
+  }
+
+  kurang = () => {
+    const test = this.state.stockku
+    if (test <= 0) {
+      window.alert('Minimum you buy 1 product')
+    } else {
+      this.setState({ stockku: test - 1 })
+    }
+  }
+
+  componentDidMount () {
+    // this.getData()
+    this.props.getDetail(this.props.match.params.id)
+  }
+
+  // this.props.match.params.id
+
+  render () {
+    const { detail } = this.props.item
+
+    return (
+      <React.Fragment>
+      <div className=" bg-gray-200 mb-24">
+          <div className="flex flex-row pt-14 pb-20 justify-center" >
+          <div className="flex flex-col items-center mr-10" style={{ width: '500px' }}>
+              <h2 className="mr-20 pb-14 text-gray-500">Favorite & Promo <span className="font-bold text-yellow-900"><i className="fa fa-angle-right font-bold"></i> {detail.productName} </span></h2>
+
+              <div className="flex flex-col items-center">
+
+                  <img className="h-72 w-72 rounded-full" src={detail.picture} alt=""/>
+
+              </div>
+
+              <h2 className="font-extrabold text-4xl pt-8">{detail.productName}</h2>
+              {detail?.variant?.map((item, index) => (
+                <h2 key={index} className="font-medium text-lg pb-8"><span>IDR. {item.price}</span></h2>
+              ))}
+
+              <button className="btn3 text-white font-bold h-12 w-60 rounded-xl mb-5">Add to Cart</button>
+              <button className="btn bg-yellow-400 h-12 w-60 rounded-xl text-yellow-900 font-bold mb-8">Ask a Staff</button>
+          </div>
+          <div className="flex flex-col">
+              <div className="bg-white flex flex-col w-96 rounded-lg p-14" style={{ height: '450px' }}>
+                  <div className="flex-1 flex flex-col">
+
+                    <h2 className="text-yellow-900 pb-5">{detail.deliveryCondition}</h2>
+
+                    <p className="text-yellow-900">{detail.description}</p>
+
+                  </div>
+                  <div className="flex flex-col h-20 items-center">
+                      <h2 className="text-lg font-bold">Choose a size</h2>
+                      <div className="flex flex-row space-x-8 pt-5">
+                        {detail?.variant?.map((item, index) => (
+                          <button key={index} className="font-bold text-lg bg-yellow-400 w-12 h-12 rounded-full flex justify-center items-center">{item.code}</button>
+                        ))}
+
+                      </div>
+                  </div>
+              </div>
+              <div className="flex flex-col items-center pt-10">
+                  <h2 className="font-bold">Choose Delivery Methods</h2>
+                  <div className="flex flex-row space-x-5 pt-6">
+                      <button className="btn3 text-white font-medium h-10 w-18 rounded-lg text-xs px-5 mb-5">Dine in</button>
+                      <button className="btn4 text-gray-400 font-medium h-10 w-18 rounded-lg text-xs px-5 mb-5" disabled style={{ cursor: 'not-allowed' }}>Door Delivery</button>
+                      <button className="btn4 text-gray-400 font-medium h-10 w-18 rounded-lg text-xs px-5 mb-5" disabled style={{ cursor: 'not-allowed' }}>Pick up</button>
+                  </div>
+                  <div className="flex">
+                      <span className="text-sm">Set time : <input className="border-b-2 text-xs border-gray-400 bg-transparent ml-5" type="text" placeholder="Enter the time you’ll arrived" disabled style={{ cursor: 'not-allowed', width: '250px' }}/></span>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+        <div className="z-20 relative flex flex-row justify-center">
+            <div className="flex flex-row space-x-10">
+                <div className="cont4 flex flex-row bg-white h-32 p-5 rounded-xl" style={{ width: '550px' }}>
+                    <div className="flex flex-row items-center">
+
+                      <img className="h-20 w-20 rounded-full" src={detail.picture} alt=""/>
+
+                    </div>
+                    <div className="flex flex-col justify-center pl-10">
+
+                      <h2 className="font-bold text-xl">{detail.productName}</h2>
+
+                        <h2>x1 (Large)</h2>
+                        <h2>x1 (Regular)</h2>
+                    </div>
+                    <div className="flex flex-row items-center pl-32 space-x-8">
+                          <button onClick={this.kurang} className="font-bold flex flex-row justify-center items-center text-2xl w-7 h-7 rounded-full bg-yellow-200 text-yellow-800">-</button>
+                          <h2 className="font-bold text-xl">{detail.stock}</h2>
+                          <button onClick={this.tambah} className="font-bold flex flex-row justify-center items-center text-2xl w-7 h-7 rounded-full bg-yellow-200 text-yellow-800">+</button>
+                    </div>
+                </div>
+                <div className="cont4 flex flex-row">
+                    <button className=" bg-yellow-400 h-32 w-48 rounded-xl text-black font-bold text-xl">CHECKOUT</button>
+                </div>
+            </div>
+        </div>
+      </div>
+      </React.Fragment>
+    );
+  }
+}
+
+const mapStateToProps = state => ({
+  item: state.item
+})
+
+const mapDispatchToProps = { getDetail }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Detail)
