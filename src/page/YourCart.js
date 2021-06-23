@@ -5,7 +5,7 @@ class YourCart extends Component {
   
   render () {
     const {items} = this.props.carts
-    
+    console
     return (
       <React.Fragment>
       <div className="bgcart flex justify-center">
@@ -21,7 +21,7 @@ class YourCart extends Component {
                         </div>
                         <div className="flex flex-1 flex-col pb-8 border-b mx-10 border-gray-300">
 
-                        {items?.map(item => (
+                        {/* {items?.map(item => (
                               <div key={item.id} className="flex flex-row items-center">
                                     <img className="h-16 w-16 rounded-lg" src={item.picture} alt=""/>
                                 <div className="flex flex-col flex-1 ml-5">
@@ -35,7 +35,7 @@ class YourCart extends Component {
                                 <h2>IDR. {item.base_price.toLocaleString('en')}</h2>
                                 </div>
                             </div>
-                                ))}
+                                ))} */}
                             
                         </div>
                         <div className="flex flex-col pt-5 mx-5">

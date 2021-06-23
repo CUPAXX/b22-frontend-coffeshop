@@ -9,18 +9,28 @@ import { SectionBarCounter } from "../components/SectionBarCounter";
 
 function Detail (props) {
   const { detail } = props.item
-  const [price, setPrice] = useState(0);
-  const [selectedVariant, setSelectedVariants] = useState(0);
-  const [variants, setVariants] = useState(null);
+  const [price, setPrice] = useState(0)
+  const [selectedVariant, setSelectedVariants] = useState(0)
+  const [variants, setVariants] = useState(null)
 
   useEffect(() => {
     if (!variants && detail?.variant) {
-      const data = detail?.variant.map((variants) => {
-        return { ...variants, amount: 0 };
-      });
-      setVariants(data);
+      const data = detail?.variant?.map((variants) => {
+        return {
+          ...variants, amount: 0 
+        }
+      })
+      // const data = detail?.map((product) => {
+      //   return product?.variant?.map(variants => {
+      //     return {
+      //       variants, amount: 0}
+      //   })
+      // })
+      setVariants(data)
     }
-  }, [variants, detail]);
+
+      
+    }, [variants, detail])
 
   useEffect(() => {
     if (detail?.base_price) {
@@ -136,7 +146,7 @@ function Detail (props) {
               </div>
           </div>
       </div>
-      {/* <SectionBarCounter
+      <SectionBarCounter
           variants={variants || []}
           onClick={() => props.addProducts(detail)}
           title={detail?.name}
@@ -144,9 +154,9 @@ function Detail (props) {
           type="counter"
           stateValue={0}
           max={detail?.quantity}
-        /> */}
+        />
 
-        <div className="z-20 relative flex flex-row justify-center">
+        {/* <div className="z-20 relative flex flex-row justify-center">
             <div className="flex flex-row space-x-10">
                 <div className="cont4 flex flex-row bg-white h-32 p-5 rounded-xl" style={{ width: '550px' }}>
                     <div className="flex flex-row items-center">
@@ -171,8 +181,8 @@ function Detail (props) {
                     <button className=" bg-yellow-400 h-32 w-48 rounded-xl text-black font-bold text-xl">CHECKOUT</button>
                 </div>
             </div>
-        </div>
-        
+        </div> */}
+
       </div>
       </React.Fragment>
   );

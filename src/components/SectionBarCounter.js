@@ -41,7 +41,7 @@ export function SectionBarCounter({
           <h4>{title}</h4>
           {item.map((variants) => {
             return (
-              <h5 key="">
+              <h5 key={variants.id}>
                 x{variants.amount} {variants.name}
               </h5>
             );
@@ -51,7 +51,7 @@ export function SectionBarCounter({
           {item.map((res, idx) => {
             return (
               <Counter 
-              key=""
+              key="coba"
                 onIncrease={() => onIncrease(idx)}
                 onDecrease={() => onDecrease(idx)}
                 stateValue={stateValue}
