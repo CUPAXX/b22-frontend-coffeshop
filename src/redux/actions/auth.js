@@ -47,3 +47,8 @@ export const authRegister = (email, password, phoneNumber) => {
     }
   }
 }
+
+export const authLogout = () => ({
+  type: 'AUTH_LOGOUT'
+})
+

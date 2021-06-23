@@ -6,5 +6,12 @@ module.exports = {
         require('autoprefixer')
       ]
     }
+  },
+  eslint: {
+    configure: {
+      rules: {
+        'no-unused-vars': 'off'
+      }
+    }
   }
 }

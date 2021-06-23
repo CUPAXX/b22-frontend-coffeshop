@@ -3,7 +3,7 @@ module.exports = {
     es2021: true
   },
   parser: '@babel/eslint-parser',
-  extends: ['plugin:react/recommended', 'standard'],
+  extends: ['plugin:react/recommended'],
   parserOptions: {
     requireConfigFile: false,
     babelOptions: {
@@ -21,5 +21,6 @@ module.exports = {
     'react/jsx-uses-react': 'error',
     'react/jsx-uses-vars': 'error',
     'react/prop-types': 0
+
   }
 }

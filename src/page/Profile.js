@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { profileUser } from '../redux/actions/profile'
+import { authLogout } from '../redux/actions/auth'
 import { connect } from 'react-redux'
 
 class Profile extends Component {
   componentDidMount () {
     const { token } = this.props.auth
-    console.log(token)
+
     if (token !== null) {
-      this.props.profileUser()
+      this.props.profileUser(token)
     } else {
-      console.log('error bossku')
+      console.log('You Cannot Access Site')
     }
   }
 
@@ -46,16 +47,16 @@ class Profile extends Component {
                 <div className="flex flex-row space-x-8">
                     <div className="flex flex-col">
                         <h2 className="text-base font-medium text-gray-400">Email addres :</h2>
-                        <input type="text" className="iptprofile h-8 w-80 border-b-2 border-black" placeholder="zulaikha17@gmail.com"/>
+                        <input type="text" className="iptprofile h-8 w-80 border-b-2 border-black" value={data.email}></input>
                     </div>
                     <div className="flex flex-col">
                         <h2 className="text-base font-medium text-gray-400">Mobile number :</h2>
-                        <input type="text" className="iptprofile h-8 w-80 border-b-2 border-black" placeholder="(+62)813456782"/>
+                        <input type="text" className="iptprofile h-8 w-80 border-b-2 border-black" value={data.phoneNumber}/>
                     </div>
                 </div>
                 <div className="flex flex-col pt-10">
                     <h2 className="text-base font-medium text-gray-400">Delivery adress :</h2>
-                    <textarea className="iptprofile h-14 w-80 border-b-2 border-black" cols="3" rows="1" placeholder="Iskandar Street no. 67 Block A Near Bus Stop"></textarea>
+                    <textarea className="iptprofile h-14 w-80 border-b-2 border-black" cols="3" rows="1" value={data.address}></textarea>
                 </div>
             </div>
             <div className="flex flex-col h-3 bg-yellow-900 rounded-b-lg"></div>
@@ -112,7 +113,7 @@ class Profile extends Component {
             <button className="btn3 text-white font-bold h-12 w-72 rounded-xl mb-5">Save Change</button>
             <button className="btn bg-yellow-400 h-12 w-72 rounded-xl text-yellow-900 font-bold mb-8">Cancel</button>
             <button className="btn2 bg-white h-12 w-72 rounded-xl  font-bold text-yellow-900 mb-5">Edit Password <i className="fa fa-angle-right ml-24" style={{ fontSize: '20px' }}></i></button>
-            <button className="btn2 bg-white h-12 w-72 rounded-xl  font-bold text-yellow-900">Log out <i className="fa fa-angle-right ml-36" style={{ fontSize: '20px' }}></i></button>
+            <button onClick={this.props.authLogout} className="btn2 bg-white h-12 w-72 rounded-xl  font-bold text-yellow-900">Log out <i className="fa fa-angle-right ml-36" style={{ fontSize: '20px' }}></i></button>
         </div>
     </div>
 </div>
@@ -127,6 +128,6 @@ const mapStateToProps = state => ({
   auth: state.auth
 })
 
-const mapDispatchToProps = { profileUser }
+const mapDispatchToProps = { profileUser, authLogout }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile)

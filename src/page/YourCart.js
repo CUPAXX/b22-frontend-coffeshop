@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class YourCart extends Component {
+  
   render () {
+    const {items} = this.props.carts
+    console
     return (
       <React.Fragment>
       <div className="bgcart flex justify-center">
@@ -11,36 +15,28 @@ class YourCart extends Component {
             </div>
             <div className="flex flex-row">
                 <div className="flex flex-col pr-40">
-                    <div className="flex flex-col bg-white rounded-xl " style={{ height: '550px', width: '350px' }}>
+                    <div className="flex flex-1 flex-col bg-white rounded-xl" >
                         <div className="flex flex-col">
-                            <div className="font-bold text-2xl py-14 text-yellow-900 text-center ">Order Summary</div>
+                            <div className="font-bold text-2xl py-10 text-yellow-900 text-center ">Order Summary</div>
                         </div>
-                        <div className="flex flex-col pb-8 border-b items-center border-gray-300">
-                            <div className="flex flex-row">
-                                <div className="h-16 w-16">
-                                    <img src="assets/cartp.png" alt=""/>
+                        <div className="flex flex-1 flex-col pb-8 border-b mx-10 border-gray-300">
+
+                        {/* {items?.map(item => (
+                              <div key={item.id} className="flex flex-row items-center">
+                                    <img className="h-16 w-16 rounded-lg" src={item.picture} alt=""/>
+                                <div className="flex flex-col flex-1 ml-5">
+                                    <h2>{item.productName}</h2>
+                                   
+                                      <h2>x 1</h2>
+                                      <h2>Reguler</h2>
+
                                 </div>
-                                <div className="flex flex-col pl-5 pr-10">
-                                    <h2>Hazelnut Latte</h2>
-                                    <h2>x 1</h2>
-                                    <h2>Regular</h2>
-                                </div>
-                                <div className="flex flex-col justify-center">
-                                    <h2>IDR 24.0</h2>
-                                </div>
-                            </div>
-                            <div className="flex flex-row pt-5 ">
-                                <div className="h-16 w-16">
-                                    <img src="assets/cartp2.png" alt=""/>
-                                </div>
-                                <div className="flex flex-col pl-5 pr-3">
-                                    <h2>Chicken Fire Wings</h2>
-                                    <h2>x 2</h2>
-                                </div>
-                                <div className="flex flex-col justify-center">
-                                    <h2>IDR 30.0</h2>
+                                <div>
+                                <h2>IDR. {item.base_price.toLocaleString('en')}</h2>
                                 </div>
                             </div>
+                                ))} */}
+                            
                         </div>
                         <div className="flex flex-col pt-5 mx-5">
                             <div className="flex flex-row">
@@ -56,7 +52,7 @@ class YourCart extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex flex-row mx-5 pt-10">
+                        <div className="flex flex-row pb-8 mx-5 pt-10">
                             <div className="font-bold text-2xl text-yellow-900 pr-24">Total</div>
                             <div className="font-bold text-2xl  text-yellow-900">IDR 150.000</div>
                         </div>
@@ -112,4 +108,8 @@ class YourCart extends Component {
   }
 }
 
-export default YourCart;
+const mapStateToProps = state => ({
+  carts: state.carts
+})
+
+export default connect(mapStateToProps)(YourCart);

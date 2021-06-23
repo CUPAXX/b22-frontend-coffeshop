@@ -66,7 +66,7 @@ class SignUp extends Component {
             </div>
         </div>
 
-        <div className="z-20 section1 container relative mx-auto -mt-32">
+        <div className="z-20 section1 container relative mx-auto -mt-20">
             <div className="section2 flex flex-row items-center h-full">
                 <div className="flex-1 flex flex-row items-center mx-20  ">
                     <div className=" flex flex-col space-y-2">

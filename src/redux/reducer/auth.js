@@ -37,6 +37,12 @@ const auth = (state = initialState, action) => {
         errMsg: action.payload
       }
     }
+    case 'AUTH_LOGOUT': {
+      return {
+        ...state,
+        token: null
+      }
+    }
     default: {
       return {
         ...state
