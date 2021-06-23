@@ -1,5 +1,7 @@
 const initialState = {
-  items: [],
+  items: [
+    
+  ],
   totalItem: 0
 }
 

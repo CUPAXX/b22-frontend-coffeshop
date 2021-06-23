@@ -1,10 +1,45 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
+
 import { connect } from 'react-redux';
 import { getDetail } from '../redux/actions/item'
+import { addItems } from '../redux/actions/carts'
+import { SectionBarCounter } from "../components/SectionBarCounter";
 
 // import axios from 'axios'
 
-class Detail extends Component {
+function Detail (props) {
+  const { detail } = props.item
+  const [price, setPrice] = useState(0);
+  const [selectedVariant, setSelectedVariants] = useState(0);
+  const [variants, setVariants] = useState(null);
+
+  useEffect(() => {
+    if (!variants && detail?.variant) {
+      const data = detail?.variant.map((variants) => {
+        return { ...variants, amount: 0 };
+      });
+      setVariants(data);
+    }
+  }, [variants, detail]);
+
+  useEffect(() => {
+    if (detail?.base_price) {
+      setPrice(detail?.base_price);
+    }
+  }, [detail]);
+
+  
+
+  const getPrice = (idx) => {
+    const getPrice = detail.variant[idx].price;
+    setPrice(getPrice);
+    setSelectedVariants(getPrice);
+  };
+
+  useEffect(() => {
+    props.getDetail(props.match.params.id)
+  }, [])
+
   // state = {
   //   data: [],
   //   statePrice: [],
@@ -29,41 +64,33 @@ class Detail extends Component {
   //   this.setState({ statePrice: addData })
   // }
 
-  tambah = () => {
-    const test = this.state.stockku
-    const test2 = this.state.stockBefore
-    if (test >= test2) {
-      window.alert('You Already bought all our stock')
-    } else {
-      this.setState({ stockku: test + 1 })
-    }
-  }
+  // tambah = () => {
+  //   const test = this.state.stockku
+  //   const test2 = this.state.stockBefore
+  //   if (test >= test2) {
+  //     window.alert('You Already bought all our stock')
+  //   } else {
+  //     this.setState({ stockku: test + 1 })
+  //   }
+  // }
 
-  kurang = () => {
-    const test = this.state.stockku
-    if (test <= 0) {
-      window.alert('Minimum you buy 1 product')
-    } else {
-      this.setState({ stockku: test - 1 })
-    }
-  }
-
-  componentDidMount () {
-    // this.getData()
-    this.props.getDetail(this.props.match.params.id)
-  }
+  // kurang = () => {
+  //   const test = this.state.stockku
+  //   if (test <= 0) {
+  //     window.alert('Minimum you buy 1 product')
+  //   } else {
+  //     this.setState({ stockku: test - 1 })
+  //   }
+  // }
 
   // this.props.match.params.id
 
-  render () {
-    const { detail } = this.props.item
-
-    return (
+  return (
       <React.Fragment>
       <div className=" bg-gray-200 mb-24">
           <div className="flex flex-row pt-14 pb-20 justify-center" >
           <div className="flex flex-col items-center mr-10" style={{ width: '500px' }}>
-              <h2 className="mr-20 pb-14 text-gray-500">Favorite & Promo <span className="font-bold text-yellow-900"><i className="fa fa-angle-right font-bold"></i> {detail.productName} </span></h2>
+              <h2 className="mr-20 pb-14 text-gray-500 capitalize ">Favorite & Promo <span className="font-bold text-yellow-900 capitalize"><i className="fa fa-angle-right font-bold"></i> {detail.productName} </span></h2>
 
               <div className="flex flex-col items-center">
 
@@ -71,12 +98,10 @@ class Detail extends Component {
 
               </div>
 
-              <h2 className="font-extrabold text-4xl pt-8">{detail.productName}</h2>
-              {detail?.variant?.map((item, index) => (
-                <h2 key={index} className="font-medium text-lg pb-8"><span>IDR. {item.price}</span></h2>
-              ))}
+              <h2 className="font-extrabold capitalize text-4xl pt-8 pb-4">{detail.productName}</h2>
+                <h2 className="font-medium text-lg pb-8"><span>IDR. {price.toLocaleString('en')}</span></h2>
 
-              <button className="btn3 text-white font-bold h-12 w-60 rounded-xl mb-5">Add to Cart</button>
+              <button onClick={() => props.addItems(detail)} className="btn3 text-white font-bold h-12 w-60 rounded-xl mb-5">Add to Cart</button>
               <button className="btn bg-yellow-400 h-12 w-60 rounded-xl text-yellow-900 font-bold mb-8">Ask a Staff</button>
           </div>
           <div className="flex flex-col">
@@ -91,8 +116,8 @@ class Detail extends Component {
                   <div className="flex flex-col h-20 items-center">
                       <h2 className="text-lg font-bold">Choose a size</h2>
                       <div className="flex flex-row space-x-8 pt-5">
-                        {detail?.variant?.map((item, index) => (
-                          <button key={index} className="font-bold text-lg bg-yellow-400 w-12 h-12 rounded-full flex justify-center items-center">{item.code}</button>
+                        {detail?.variant?.map((item, idx) => (
+                          <button key={item.id} onClick={() => getPrice(idx)} className="font-bold text-lg bg-yellow-400 w-12 h-12 rounded-full flex justify-center items-center">{item.code}</button>
                         ))}
 
                       </div>
@@ -111,6 +136,15 @@ class Detail extends Component {
               </div>
           </div>
       </div>
+      {/* <SectionBarCounter
+          variants={variants || []}
+          onClick={() => props.addProducts(detail)}
+          title={detail?.name}
+          picture={detail?.picture}
+          type="counter"
+          stateValue={0}
+          max={detail?.quantity}
+        /> */}
 
         <div className="z-20 relative flex flex-row justify-center">
             <div className="flex flex-row space-x-10">
@@ -122,15 +156,15 @@ class Detail extends Component {
                     </div>
                     <div className="flex flex-col justify-center pl-10">
 
-                      <h2 className="font-bold text-xl">{detail.productName}</h2>
+                      <h2 className="font-bold text-xl capitalize">{detail.productName}</h2>
 
                         <h2>x1 (Large)</h2>
                         <h2>x1 (Regular)</h2>
                     </div>
                     <div className="flex flex-row items-center pl-32 space-x-8">
-                          <button onClick={this.kurang} className="font-bold flex flex-row justify-center items-center text-2xl w-7 h-7 rounded-full bg-yellow-200 text-yellow-800">-</button>
+                          <button className="font-bold flex flex-row justify-center items-center text-2xl w-7 h-7 rounded-full bg-yellow-200 text-yellow-800">-</button>
                           <h2 className="font-bold text-xl">{detail.stock}</h2>
-                          <button onClick={this.tambah} className="font-bold flex flex-row justify-center items-center text-2xl w-7 h-7 rounded-full bg-yellow-200 text-yellow-800">+</button>
+                          <button className="font-bold flex flex-row justify-center items-center text-2xl w-7 h-7 rounded-full bg-yellow-200 text-yellow-800">+</button>
                     </div>
                 </div>
                 <div className="cont4 flex flex-row">
@@ -138,16 +172,16 @@ class Detail extends Component {
                 </div>
             </div>
         </div>
+        
       </div>
       </React.Fragment>
-    );
-  }
+  );
 }
 
 const mapStateToProps = state => ({
   item: state.item
 })
 
-const mapDispatchToProps = { getDetail }
+const mapDispatchToProps = { getDetail, addItems }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Detail)

@@ -5,10 +5,17 @@ import item from './item'
 import profile from './profile'
 import category from './category'
 import cateItem from './cateItem'
+import { persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage';
+
+const persistAuth = {
+  key: 'auth',
+  storage: storage,
+}
 
 const reducer = combineReducers({
   carts,
-  auth,
+  auth: persistReducer(persistAuth, auth),
   item,
   profile,
   category,

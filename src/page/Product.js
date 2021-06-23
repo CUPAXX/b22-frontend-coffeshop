@@ -85,7 +85,7 @@ class Product extends Component {
               <div className="flex flex-row  mt-20 justify-center">
                   <div className="cont4 bg-white w-32 h-44 rounded-2xl">
                     <div className="flex justify-center -mt-10"><img className="h-24 w-24 rounded-full" src={coba.picture} alt="coba_image"/></div>
-                    <h1 className="font-extrabold text-base leading-tight text-center w-18 mx-auto pt-3 px-2">{coba.productName}</h1>
+                    <h1 className="font-extrabold text-base capitalize leading-tight text-center w-18 mx-auto pt-3 px-2">{coba.productName}</h1>
                     <h2 className="font-bold text-center text-yellow-900 pt-2" >IDR. {coba.price.toLocaleString('en')}</h2>
                   </div>
                 </div>
@@ -98,7 +98,7 @@ class Product extends Component {
                 <div className="flex flex-row  mt-20 justify-center">
                     <div className="cont4 bg-white w-32 h-44 rounded-2xl">
                       <div className="flex justify-center -mt-10"><img className="h-24 w-24 rounded-full" src={item.picture} alt="item_image"/></div>
-                      <h1 className="font-extrabold text-base leading-tight text-center w-18 mx-auto pt-3 px-2">{item.productName}</h1>
+                      <h1 className="font-extrabold text-base capitalize leading-tight text-center w-18 mx-auto pt-3 px-2">{item.productName}</h1>
                       <h2 className="font-bold text-center text-yellow-900 pt-2" >IDR. {item.price.toLocaleString('en')}</h2>
                     </div>
                   </div>
