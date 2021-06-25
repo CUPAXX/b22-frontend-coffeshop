@@ -1,11 +1,40 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { createTransaction } from '../redux/actions/transaction';
 
 class YourCart extends Component {
+  state = {
+    payment_method: ''
+  }
+  onPayment = (e) =>{
+    e.preventDefault()
+    const {items} = this.props.carts
+    const {token} = this.props.auth
+    const data = items
+    const auth = token
+    const payment_method = this.state.payment_method
+    this.props.createTransaction(data, auth, payment_method)
+  }
+
+  // onPayment = (e) =>{
+  //   e.preventDefault()
+  //   const {items} = this.props.carts
+  //   const {token} = this.props.auth
+  //   console.log(items)
+  //   const data = {
+  //     id: items?.id,
+  //     amount: items?.amount,
+  //     payment_method: this.state.payment_method
+  //   }
+  //   const auth = token
+  //   this.props.createTransaction(data, auth)
+  // }
+  
   
   render () {
     const {items} = this.props.carts
-    console
+    const {errMsg} = this.props.transaction
+    const {sccMsg} = this.props.transaction
     return (
       <React.Fragment>
       <div className="bgcart flex justify-center">
@@ -21,21 +50,30 @@ class YourCart extends Component {
                         </div>
                         <div className="flex flex-1 flex-col pb-8 border-b mx-10 border-gray-300">
 
-                        {/* {items?.map(item => (
-                              <div key={item.id} className="flex flex-row items-center">
-                                    <img className="h-16 w-16 rounded-lg" src={item.picture} alt=""/>
+                        {items?.map(item => (
+                              <div key={item.id} className="flex flex-row items-center mb-4">
+                                    <img className="h-16 w-16 rounded-lg " src={item.picture} alt=""/>
                                 <div className="flex flex-col flex-1 ml-5">
-                                    <h2>{item.productName}</h2>
-                                   
-                                      <h2>x 1</h2>
-                                      <h2>Reguler</h2>
+                                    <h2 className="capitalize font-bold">{item.name}</h2>
+                                    <div>
+                                    {item?.amount?.filter(amt => amt.amount !==0).map(varian => (
+                                     <React.Fragment key={varian.id}>
+                                       <h2> x {varian.amount} <span className="capitalize">{varian.name}</span></h2>
+                                     
+                                     </React.Fragment>
+                                     
+                                   ))}
+                                    </div>
 
                                 </div>
-                                <div>
-                                <h2>IDR. {item.base_price.toLocaleString('en')}</h2>
+                                <div className="mt-6 ml-6">
+                                  {item?.amount?.filter(amt => amt.amount !==0).map(pri => (
+                                    <h2 key={pri.id}>IDR. {pri.price}</h2>
+                                  ))}
+                                
                                 </div>
                             </div>
-                                ))} */}
+                                ))}
                             
                         </div>
                         <div className="flex flex-col pt-5 mx-5">
@@ -76,7 +114,7 @@ class YourCart extends Component {
                     <div className="flex flex-col bg-white h-56 rounded-xl justify-center px-10" style={{ width: '350px' }}>
                         <div className="flex py-4 items-center">
                             <label className="cb2 flex justify-center items-center">
-                            <input type="radio" name="radioPay"/>
+                            <input type="radio" name="radioPay" onChange={(e) => this.setState({payment_method: e.target.value})} value="Card" />
                             <span className="checkmark2"></span> <span className="flex justify-center items-center w-8 h-8 bg-yellow-600 rounded-lg mx-4"><i className="fa fa-credit-card-alt text-white" style={{ fontSize: '13px' }}></i></span>
                           </label>
                           <span className="font-medium text-lg">Card</span>
@@ -84,7 +122,7 @@ class YourCart extends Component {
 
                         <div className="flex py-4 items-center border-t border-b border-gray-300">
                             <label className="cb2 flex justify-center items-center">
-                            <input type="radio" name="radioPay"/>
+                            <input type="radio" name="radioPay" onChange={(e) => this.setState({payment_method: e.target.value})} value="Bank Account" />
                             <span className="checkmark2"></span> <span className="flex justify-center items-center w-8 h-8 bg-yellow-900 rounded-lg mx-4"><i className="fa fa-university text-white" style={{ fontSize: '13px' }}></i></span>
                           </label>
                           <span className="font-medium text-lg">Bank account</span>
@@ -92,13 +130,15 @@ class YourCart extends Component {
 
                         <div className="flex py-4 items-center">
                             <label className="cb2 flex justify-center items-center">
-                            <input type="radio" name="radioPay"/>
+                            <input type="radio" name="radioPay" onChange={(e) => this.setState({payment_method: e.target.value})} value="Cash On Delivery" />
                             <span className="checkmark2"></span> <span className="flex justify-center items-center w-8 h-8 bg-yellow-500 rounded-lg mx-4"><i className="fa fa-truck text-white" style={{ fontSize: '13px' }}></i></span>
                           </label>
                           <span className="font-medium text-lg">Cash on delivery</span>
                         </div>
                     </div>
-                    <button className="btn3 text-white font-bold h-14 rounded-xl mt-14" style={{ width: '350px' }}>Confirm and Pay</button>
+                    {errMsg!=="" && <div className="bg-red-300 text-red-900 font-bold mt-5 px-5 py-5 rounded-md text-center">{errMsg}</div>}
+                      {sccMsg!=="" && <div className="bg-green-300 text-green-900 font-bold px-5 py-5 rounded-md text-center">{sccMsg}</div>}
+                    <button className="btn3 text-white font-bold h-14 rounded-xl  mt-14" onClick={this.onPayment} style={{ width: '350px' }}>Confirm and Pay</button>
                 </div>
             </div>
         </div>
@@ -109,7 +149,13 @@ class YourCart extends Component {
 }
 
 const mapStateToProps = state => ({
-  carts: state.carts
+  carts: state.carts,
+  transaction: state.transaction,
+  auth: state.auth
 })
 
-export default connect(mapStateToProps)(YourCart);
+const mapDispatchToProps = {
+  createTransaction
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(YourCart);

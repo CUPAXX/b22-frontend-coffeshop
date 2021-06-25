@@ -4,9 +4,9 @@ import { authLogout } from '../redux/actions/auth'
 import { connect } from 'react-redux'
 
 class Profile extends Component {
+  
   componentDidMount () {
     const { token } = this.props.auth
-
     if (token !== null) {
       this.props.profileUser(token)
     } else {
@@ -16,6 +16,7 @@ class Profile extends Component {
 
   render () {
     const { data } = this.props.profile
+    console.log(data)
     return (
       <React.Fragment>
        <div className="bgprofile flex justify-center items-center mb-40">
