@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 export function Counter({ 
-  onValueChange, stateValue, max, onIncrease, onDecrease 
+ stateValue, max, onIncrease, onDecrease 
 }) {
   const [counter, setCounter] = useState(stateValue);
 
@@ -17,14 +17,14 @@ export function Counter({
     }
     if (type === "minus") {
       if (counter < 0) {
-        window.alert(`There are only ${max} of these items`);
+        window.alert(`Minimum 0 of these items`);
       }else {
         onDecrease();
         result = counter - 1;
       }
     }
     setCounter(result);
-    // onValueChange(result);
+    ;
   };
   return (
     <div className="flex flex-row space-x-4 items-center text-xl font-bold">

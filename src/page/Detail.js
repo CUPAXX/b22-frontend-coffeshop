@@ -12,6 +12,7 @@ function Detail (props) {
   const [price, setPrice] = useState(0)
   const [selectedVariant, setSelectedVariants] = useState(0)
   const [variants, setVariants] = useState(null)
+  const [coba, setCoba] = useState([])
 
   useEffect(() => {
     if (!variants && detail?.variant) {
@@ -20,12 +21,6 @@ function Detail (props) {
           ...variants, amount: 0 
         }
       })
-      // const data = detail?.map((product) => {
-      //   return product?.variant?.map(variants => {
-      //     return {
-      //       variants, amount: 0}
-      //   })
-      // })
       setVariants(data)
     }
 
@@ -44,7 +39,32 @@ function Detail (props) {
     const getPrice = detail.variant[idx].price;
     setPrice(getPrice);
     setSelectedVariants(getPrice);
+    
   };
+
+  // const lagi = (variants, selectedVariant) => {
+  //   const data = {
+  //     id: props.item.id,
+  //     name: props.item.productName,
+  //     picture: props.item.picture,
+  //     variant: variants,
+  //     selectedVariant: selectedVariant
+  //   }
+  //   setCoba(data)
+  // }
+
+  useEffect(() => {
+    if(variants && detail){
+      const data = {
+        id: detail.id,
+        name: detail.productName,
+        picture: detail.picture,
+        variant: detail.variant,
+        amount: variants
+      }
+      setCoba(data)
+    }
+  }, [variants, detail])
 
   useEffect(() => {
     props.getDetail(props.match.params.id)
@@ -96,6 +116,7 @@ function Detail (props) {
   // this.props.match.params.id
 
   return (
+    
       <React.Fragment>
       <div className=" bg-gray-200 mb-24">
           <div className="flex flex-row pt-14 pb-20 justify-center" >
@@ -111,7 +132,7 @@ function Detail (props) {
               <h2 className="font-extrabold capitalize text-4xl pt-8 pb-4">{detail.productName}</h2>
                 <h2 className="font-medium text-lg pb-8"><span>IDR. {price.toLocaleString('en')}</span></h2>
 
-              <button onClick={() => props.addItems(detail)} className="btn3 text-white font-bold h-12 w-60 rounded-xl mb-5">Add to Cart</button>
+              <button onClick={() => props.addItems(coba)} className="btn3 text-white font-bold h-12 w-60 rounded-xl mb-5">Add to Cart</button>
               <button className="btn bg-yellow-400 h-12 w-60 rounded-xl text-yellow-900 font-bold mb-8">Ask a Staff</button>
           </div>
           <div className="flex flex-col">

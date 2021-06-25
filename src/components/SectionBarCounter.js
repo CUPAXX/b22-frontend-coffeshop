@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Counter } from "../components/Counter";
 
 export function SectionBarCounter({
-  title,
+  productName,
   picture,
   stateValue,
   max,
@@ -30,7 +30,7 @@ export function SectionBarCounter({
   };
 
   return (
-    <section className="z-50 relative -mt-24 mx-32 flex flex-row space-x-10">
+    <section className="z-50 relative -mt-14 mx-32 flex flex-row space-x-10">
       <section className="bg-white h-36 w-full py-7 rounded-xl shadow-lg flex flex-row items-center justify-between px-24">
         <img
           src={picture}
@@ -38,7 +38,7 @@ export function SectionBarCounter({
           className="w-24 h-24 rounded-full object-cover"
         />
         <div className="flex-1 space-y-3 ml-10">
-          <h4>{title}</h4>
+          <h4>{productName}</h4>
           {item.map((variants) => {
             return (
               <h5 key={variants.id}>
@@ -75,4 +75,3 @@ export function SectionBarCounter({
 SectionBarCounter.defaultProps = {
   variants: [],
 };
-// export default SectionBarCounter;
