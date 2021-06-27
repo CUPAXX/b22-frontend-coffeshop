@@ -11,29 +11,45 @@ class Login extends Component {
 
   componentDidMount () {
     this.props.toggleAuth()
+    this.props.authLogin()
   }
 
   onLogin = (e) => {
     e.preventDefault()
     const { email, password } = this.state
     this.props.authLogin(email, password)
-    this.props.history.push('/')
+    const { token } = this.props.auth
+    const { errMsg } = this.props.auth
+    if (token !== null) {
+      alert("Login Success")
+      this.props.history.push('/')
+    }else if (errMsg !== '') {
+      alert(`${errMsg}`)
+      // setTimeout(function(){ alert(`${errMsg}`); }, 3000);
+    }
+    
   }
 
-  // componentDidUpdate () {
-  //   const { token } = this.props.auth
-  //   if (token !== null) {
-  //     this.props.toggleAuth()
-  //     this.props.history.push('/')
-  //   }
-  // }
+  componentDidUpdate () {
+    const { email, password } = this.state
+    this.props.authLogin(email, password)
+  //   this.onLogin
+    // this.props.authLogin()
+    // const { token } = this.props.auth
+    // const { errMsg } = this.props.auth
+    // if (token !== null) {
+    //   this.props.history.push('/')
+      
+    // }else if (errMsg !== '') {
+    //   alert(`${errMsg}`)
+    // }
+  }
 
   componentWillUnmount () {
     this.props.toggleAuth()
   }
 
   render () {
-    const { errMsg } = this.props.auth
 
     return (
       <React.Fragment>
@@ -58,7 +74,6 @@ class Login extends Component {
                   <div className="flex flex-col items-center mx-24 pt-20">
                       <h2 className="text-4xl font-bold text-yellow-900">Login</h2>
                   </div>
-                  {errMsg !== '' && <div className="bg-red-300 text-red-900 font-bold mx-24 text-center py-2 px-2 mt-12 rounded">{errMsg }</div>}
                   <form onSubmit={this.onLogin} className="flex-1 flex flex-col mx-24 pt-5">
                       <h1 className="font-semibold text-gray-600 mb-2">Email Adress :</h1>
                       <input onChange={e => this.setState({ email: e.target.value })} className="border-2 mb-6 border-gray-400 p-4 rounded-2xl" type="email" placeholder="Enter your email adress"/>

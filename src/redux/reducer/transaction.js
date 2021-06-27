@@ -21,13 +21,15 @@ const transaction = (state = initialState, action) => {
     case 'CREATE_TRANSACTION' : {
       return {
         ...state,
-        sccMsg: action.payload
+        sccMsg: action.payload,
+        errMsg: ''
       }
     }
     case 'CREATE_TRANSACTION_FAILED': {
       return {
         ...state,
-        errMsg: action.payload
+        errMsg: action.payload,
+        sccMsg: ''
       }
     }
     default: {

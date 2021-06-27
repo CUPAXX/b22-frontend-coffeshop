@@ -1,8 +1,22 @@
-import React from 'react'
+import React, { Component, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { profileUser } from '../redux/actions/profile'
 
-const Navbar = ({ auth }) => {
+function Navbar (props)  {
+  const { auth } = props.auth
+  const { token } = props.auth
+  const {data} = props.profile
+
+  useEffect(() => {
+    if (token !== null) {
+      props.profileUser(token)
+    } else {
+      console.log('You Cannot Access Site')
+    }
+  }, [token])
+
+
   return (
     <React.Fragment>
       <header className="flex flex-row justify-center items-center bg-white py-2 md:py-6 ">
@@ -20,7 +34,7 @@ const Navbar = ({ auth }) => {
           <Link to="/history" className=" text-gray-600 hover:underline text-sm md:text-base p-2 md:p-4">History</Link>
         </nav>
         <div className="flex flex-row ml-8 md:ml-36 w-56 space-x-5 md:space-x-10">
-          {auth.token !== null
+          {token !== null
             ? <React.Fragment>
               <i className=" fa fa-search text-gray-700" style={{ fontSize: '40px' }}></i>
             <div className="">
@@ -30,7 +44,7 @@ const Navbar = ({ auth }) => {
                 </div>
               </div>
               <Link to="/profile">
-                <img className=" items-center h-10 w-10 rounded-full" src="assets/user.png" alt="user"/>
+                <img className=" items-center h-10 w-10 rounded-full" src={data.picture} alt="user"/>
               </Link>
             </React.Fragment>
 
@@ -53,7 +67,10 @@ const Navbar = ({ auth }) => {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 })
 
-export default connect(mapStateToProps)(Navbar)
+const mapDispatchToProps = { profileUser}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

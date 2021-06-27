@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createTransaction } from '../redux/actions/transaction';
 
@@ -14,6 +15,19 @@ class YourCart extends Component {
     const auth = token
     const payment_method = this.state.payment_method
     this.props.createTransaction(data, auth, payment_method)
+    
+  }
+
+  componentDidUpdate () {
+    const {errMsg} = this.props.transaction
+    const {sccMsg} = this.props.transaction
+    if(sccMsg !== '') {
+      alert(`${sccMsg}`)
+      location.reload(this.props.history.push('/history')) 
+    }else if (errMsg !== '') {
+      alert("transaction Failed")
+      location.reload()
+    }
   }
 
   // onPayment = (e) =>{
@@ -33,8 +47,7 @@ class YourCart extends Component {
   
   render () {
     const {items} = this.props.carts
-    const {errMsg} = this.props.transaction
-    const {sccMsg} = this.props.transaction
+    
     return (
       <React.Fragment>
       <div className="bgcart flex justify-center">
@@ -55,7 +68,7 @@ class YourCart extends Component {
                                     <img className="h-16 w-16 rounded-lg " src={item.picture} alt=""/>
                                 <div className="flex flex-col flex-1 ml-5">
                                     <h2 className="capitalize font-bold">{item.name}</h2>
-                                    <div>
+                                    
                                     {item?.amount?.filter(amt => amt.amount !==0).map(varian => (
                                      <React.Fragment key={varian.id}>
                                        <h2> x {varian.amount} <span className="capitalize">{varian.name}</span></h2>
@@ -63,7 +76,7 @@ class YourCart extends Component {
                                      </React.Fragment>
                                      
                                    ))}
-                                    </div>
+                                    
 
                                 </div>
                                 <div className="mt-6 ml-6">
@@ -136,8 +149,6 @@ class YourCart extends Component {
                           <span className="font-medium text-lg">Cash on delivery</span>
                         </div>
                     </div>
-                    {errMsg!=="" && <div className="bg-red-300 text-red-900 font-bold mt-5 px-5 py-5 rounded-md text-center">{errMsg}</div>}
-                      {sccMsg!=="" && <div className="bg-green-300 text-green-900 font-bold px-5 py-5 rounded-md text-center">{sccMsg}</div>}
                     <button className="btn3 text-white font-bold h-14 rounded-xl  mt-14" onClick={this.onPayment} style={{ width: '350px' }}>Confirm and Pay</button>
                 </div>
             </div>
@@ -158,4 +169,4 @@ const mapDispatchToProps = {
   createTransaction
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(YourCart);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(YourCart));
