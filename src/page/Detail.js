@@ -42,6 +42,12 @@ function Detail (props) {
     
   };
 
+  const addCoba = () => {
+    if (props.addItems(coba)) {
+      alert("Successfully Added This Product To Your Cart")
+    }
+  }
+
   // const lagi = (variants, selectedVariant) => {
   //   const data = {
   //     id: props.item.id,
@@ -132,7 +138,7 @@ function Detail (props) {
               <h2 className="font-extrabold capitalize text-4xl pt-8 pb-4">{detail.productName}</h2>
                 <h2 className="font-medium text-lg pb-8"><span>IDR. {price.toLocaleString('en')}</span></h2>
 
-              <button onClick={() => props.addItems(coba)} className="btn3 text-white font-bold h-12 w-60 rounded-xl mb-5">Add to Cart</button>
+              <button onClick={addCoba} className="btn3 text-white font-bold h-12 w-60 rounded-xl mb-5">Add to Cart</button>
               <button className="btn bg-yellow-400 h-12 w-60 rounded-xl text-yellow-900 font-bold mb-8">Ask a Staff</button>
           </div>
           <div className="flex flex-col">

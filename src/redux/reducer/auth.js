@@ -16,7 +16,8 @@ const auth = (state = initialState, action) => {
     case 'AUTH_LOGIN': {
       return {
         ...state,
-        token: action.payload
+        token: action.payload,
+        errMsg: ''
       }
     }
     case 'AUTH_REGISTER': {
@@ -40,7 +41,8 @@ const auth = (state = initialState, action) => {
     case 'AUTH_LOGOUT': {
       return {
         ...state,
-        token: null
+        token: null,
+        errMsg: ''
       }
     }
     default: {
