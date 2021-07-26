@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import { profileUser } from '../redux/actions/profile'
+import { profileUser, updateProfile } from '../redux/actions/profile'
 import { authLogout } from '../redux/actions/auth'
 import { connect } from 'react-redux'
-import Button from '@material-ui/core/Button'
+import { withRouter } from 'react-router-dom';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton'
-import {updateProfile} from '../redux/actions/profile'
 
 class Profile extends Component {
   state = {
@@ -20,11 +19,18 @@ class Profile extends Component {
   
   componentDidMount () {
     const { token } = this.props.auth
-    if (token !== null) {
-      this.props.profileUser(token)
-    } else {
-      console.log('You Cannot Access Site')
-    }
+
+      this.props.profileUser(token).then(() => {
+        this.setState({
+          userName: this.props.profile.data.userName,
+          email: this.props.profile.data.email,
+          phoneNumber: this.props.profile.data.phoneNumber,
+          firstName: this.props.profile.data.firstName,
+          lastName: this.props.profile.data.lastName,
+          address: this.props.profile.data.address
+        })
+      })
+
   }
 
 
@@ -32,12 +38,24 @@ class Profile extends Component {
       e.preventDefault()
       const { token } = this.props.auth
       const {userName, email, phoneNumber, firstName, lastName, address, picture} = this.state
-      this.props.updateProfile( {userName, email, phoneNumber, firstName, lastName, address, picture}, token)
-      location.reload()
+      const data ={
+        userName,
+        email,
+        phoneNumber,
+        firstName,
+        lastName,
+        address,
+        picture
+      }
+      this.props.updateProfile( data, token).then(() => {
+        
+      this.props.history.push('/')
+      this.props.history.replace('/profile')
+      })
   }
 
   render () {
-    const { data } = this.props.profile
+    const {data} = this.props.profile
     return (
       <React.Fragment>
        <div className="bgprofile flex justify-center items-center mb-40">
@@ -50,7 +68,7 @@ class Profile extends Component {
             <div className="flex-1 flex flex-col items-center justify-center">
                 <div className="flex relative">
                     <img className="w-28 h-28 rounded-full" src={data.picture} alt=""/>
-                    <input accept="image/*" id="icon-button-file" type="file" onChange={e=>this.setState({picture:e.target.files[0]})} className="absolute"  style={{ display: 'none' }} /> 
+                    <input accept="image/*" id="icon-button-file" type="file" onChange={e=>this.setState({picture:e.target.files})} className="absolute"  style={{ display: 'none' }} /> 
                     {/* className="flex justify-center items-center h-10 w-10 bg-yellow-900 rounded-full absolute mt-20 ml-20"> */}
                     <label className="flex justify-center items-center h-10 w-10 bg-yellow-900 rounded-full ml-20 mt-20 absolute" htmlFor="icon-button-file">
                         <IconButton  style={{ color: 'white'}} aria-label="upload picture" component="span">
@@ -59,8 +77,8 @@ class Profile extends Component {
                     </label>
                     {/* <i className="fa fa-pencil text-white" style={{ fontSize: '20px' }}></i> */}
                 </div>
-                <h2 className="font-bold text-xl pt-6">{data.userName}</h2>
-                <h2 className="text-xs text-gray-700 pb-6">{data.email}</h2>
+                <h2 className="font-bold text-xl pt-6">{this.state.userName}</h2>
+                <h2 className="text-xs text-gray-700 pb-6">{this.state.email}</h2>
                 <h2 className="text-sm text-gray-700">Has been ordered 15 products</h2>
             </div>
             <div className="flex flex-col h-3 bg-yellow-900 rounded-b-lg"></div>
@@ -76,16 +94,16 @@ class Profile extends Component {
                 <div className="flex flex-row space-x-8">
                     <div className="flex flex-col">
                         <h2 className="text-base font-medium text-gray-400">Email addres :</h2>
-                        <input type="email" onChange={e=>this.setState({email:e.target.value})} className="iptprofile h-8 w-80 border-b-2 border-black" placeholder={data.email} />
+                        <input type="email" onChange={e=>this.setState({email:e.target.value})} className="iptprofile h-8 w-80 border-b-2 border-black" value={this.state.email} />
                     </div>
                     <div className="flex flex-col">
                         <h2 className="text-base font-medium text-gray-400">Mobile number :</h2>
-                        <input type="text"  onChange={e=>this.setState({phoneNumber:e.target.value})} className="iptprofile h-8 w-80 border-b-2 border-black" placeholder={data.phoneNumber}/>
+                        <input type="text"  onChange={e=>this.setState({phoneNumber:e.target.value})} className="iptprofile h-8 w-80 border-b-2 border-black" value={this.state.phoneNumber}/>
                     </div>
                 </div>
                 <div className="flex flex-col pt-10">
                     <h2 className="text-base font-medium text-gray-400">Delivery adress :</h2>
-                    <textarea className="iptprofile h-14 w-80 border-b-2 border-black"  onChange={e=>this.setState({address:e.target.value})} cols="3" rows="1" placeholder={data.address} />
+                    <textarea className="iptprofile h-14 w-80 border-b-2 border-black"  onChange={e=>this.setState({address:e.target.value})} cols="3" rows="1" value={this.state.address} />
                 </div>
             </div>
             <div className="flex flex-col h-3 bg-yellow-900 rounded-b-lg"></div>
@@ -104,17 +122,17 @@ class Profile extends Component {
                     <div className="flex-1 flex flex-col space-y-8">
                         <div className="flex flex-col">
                             <h2 className="text-base font-medium text-gray-400">Display name :</h2>
-                            <input type="text" onChange={e=>this.setState({userName:e.target.value})} className="iptprofile h-8 w-80 border-b-2 border-black" placeholder={data.userName}/>
+                            <input type="text" onChange={e=>this.setState({userName:e.target.value})} className="iptprofile h-8 w-80 border-b-2 border-black" value={this.state.userName}/>
                         </div>
 
                         <div className="flex flex-col">
                             <h2 className="text-base font-medium text-gray-400">Fist name :</h2>
-                            <input type="text" onChange={e=>this.setState({firstName:e.target.value})} className="iptprofile h-8 w-80 border-b-2 border-black" placeholder={data.firstName}/>
+                            <input type="text" onChange={e=>this.setState({firstName:e.target.value})} className="iptprofile h-8 w-80 border-b-2 border-black" value={this.state.firstName}/>
                         </div>
 
                         <div className="flex flex-col">
                             <h2 className="text-base font-medium text-gray-400">Last name :</h2>
-                            <input type="text" onChange={e=>this.setState({lastName:e.target.value})} className="iptprofile h-8 w-80 border-b-2 border-black" placeholder={data.lastName}/>
+                            <input type="text" onChange={e=>this.setState({lastName:e.target.value})} className="iptprofile h-8 w-80 border-b-2 border-black" value={this.state.lastName}/>
                         </div>
                     </div>
                     <div className="flex flex-col w-52 h-full">
@@ -159,4 +177,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = { profileUser, authLogout, updateProfile }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile))

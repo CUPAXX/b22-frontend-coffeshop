@@ -5,24 +5,55 @@ import { connect } from 'react-redux'
 import { getItem } from '../redux/actions/item'
 import { getCategory } from '../redux/actions/category'
 import { getItemCategory } from '../redux/actions/cateItem'
+import QueryString from 'query-string';
 
 class Product extends Component {
+  state ={
+    search: '',
+    sort: 'productName'
+  }
+
+  data = (e) => {
+    e.preventDefault()
+    this.props.history.push(`/product?search=${this.state.search}&sort[${this.state.sort}]=asc`);
+    // const qs = QueryString.parse(this.props.location.search);
+    // const {search} = this.state
+    // qs.search = qs.search || '';
+    // this.props.getItem(search)
+
+  }
+
   componentDidMount () {
-    this.props.getItem()
+    const {search, sort} = this.state
+    this.props.getItem(search, sort)
     this.props.getCategory()
     this.props.getItemCategory(this.props.match.params.id)
+    
+  }
+  componentDidUpdate( prevProps, prevState) {
+    const {search, sort} = this.state
+    if (prevProps.location.search !== this.props.location.search) {
+      this.props.getItem(search, sort)
+    }
   }
 
   loadMore = () => {
-    const { nextPage } = this.props.item.pageInfo
-    this.props.getItem(nextPage)
+    const { nextPage } = this.props.item?.pageInfo
+      this.props.getItem(search, sort, nextPage)
+   
   }
 
+  redirect = (e) => {
+    if (e.keyCode === 13) {
+      this.props.history.push(`/product?search=${this.state.search}&sort[${this.state.sort}]=asc`);
+    }
+  }
+
+  
   render () {
     const { data } = this.props.item
     const { data2 } = this.props.category
     const { data3 } = this.props.cateItem
-    // console.log(data)
     return (
         <React.Fragment>
         <div className="flex flex-row border-t-2 border-gray-300 mb-40">
@@ -59,6 +90,24 @@ class Product extends Component {
               </div>
           </div>
           <div className="flex-1 flex flex-col mb-20">
+            {/* search */}
+          <div className="p-8">
+              <div className="bg-gray-50 flex items-center mx-24 rounded-full shadow-xl">
+                <input onKeyDown={(e) => this.redirect(e)} value={this.state.search} onChange={e=>this.setState({search:e.target.value})} className=" bg-gray-50 rounded-l-full w-full  py-4 px-6 text-gray-700 leading-tight focus:outline-none" id="search" type="text" placeholder="Search"/>
+                
+                <select value={this.state.sort} onChange={e=>this.setState({sort:e.target.value})} id="sort">
+                  <option value="productName">Product Name</option>
+                  <option value="price">Price</option>
+                </select>
+
+                <div className="p-4">
+                  <button onClick={this.data} className="bg-yellow-400 text-yellow-900 rounded-full p-2 hover:bg-yellow-200 focus:outline-none w-12 h-12 flex items-center justify-center">
+                  <i className="fa fa-search" style={{fontSize: 20}}></i>
+                  </button>
+                </div>
+              </div>
+          </div>
+            
               <div className="flex flex-row justify-center my-5">
                 {data2.map(cate => (
                    <a key={cate.id} onClick={() => this.props.getItemCategory(cate.id)} className="cursor-pointer hover:underline capitalize hover:text-yellow-900 font-medium text-gray-400 mx-5">{cate.categoryName}</a>
@@ -81,7 +130,7 @@ class Product extends Component {
                 {this.props.cateItem > 0
                   ? <React.Fragment>
                   {data3.map(coba => (
-              <Link to={`/productdetail/${coba.id}`} key={coba.id.toString}>
+              <Link to={`/productdetail/${coba.id}`} key={coba.id}>
               <div className="flex flex-row  mt-20 justify-center">
                   <div className="cont4 bg-white w-32 h-44 rounded-2xl">
                     <div className="flex justify-center -mt-10"><img className="h-24 w-24 rounded-full" src={coba.picture} alt="coba_image"/></div>
@@ -94,7 +143,7 @@ class Product extends Component {
                 </React.Fragment>
                   : <React.Fragment>
                   {data.map(item => (
-                <Link to={`/productdetail/${item.id}`} key={item.id.toString}>
+                <Link to={`/productdetail/${item.id}`} key={item.id}>
                 <div className="flex flex-row  mt-20 justify-center">
                     <div className="cont4 bg-white w-32 h-44 rounded-2xl">
                       <div className="flex justify-center -mt-10"><img className="h-24 w-24 rounded-full" src={item.picture} alt="item_image"/></div>
@@ -106,11 +155,15 @@ class Product extends Component {
                   ))}
                 </React.Fragment>
                     }
-
               </div>
-              <div className="text-center mt-20">
+              {this.props.item?.pageInfo.nextPage === null ? (
+                <div> </div>
+              ) : (
+                <div className="text-center mt-20">
                 <button className="bg-yellow-400 px-11 py-2 rounded-md" onClick={this.loadMore}>Load More</button>
               </div>
+              )}
+              
 
           </div>
       </div>

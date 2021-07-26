@@ -36,8 +36,8 @@ function Navbar (props)  {
         <div className="flex flex-row ml-8 md:ml-36 w-56 space-x-5 md:space-x-10">
           {token !== null
             ? <React.Fragment>
-              <i className=" fa fa-search text-gray-700" style={{ fontSize: '40px' }}></i>
-            <div className="">
+             
+            <div className="ml-20">
                 <img className=" items-center h-10 w-10 relative" src="assets/chat.png" alt="chat"/>
                 <div className="absolute -mt-11 -ml-2">
                     <div className="bg-yellow-900 w-4 h-4 flex justify-center items-center rounded-full font-bold text-white" style={{ fontSize: '10px' }}>1</div>

@@ -33,26 +33,34 @@ export const profileUser = (token) => {
 
 export const updateProfile = (data, token) => {
   return async (dispatch) => {
-
-    const form = new FormData()
-    for( let x in data) {
-      if(data[x] !== ''){
-        form.append(x, data[x])
-      }
-      
-    }
-    // form.append('userName', username)
-    // form.append('email', email)
-    // form.append('phoneNumber', phone)
-    // form.append('firstName', firstname)
-    // form.append('lastName', lastname)
-    // form.append('address', address)
-    // form.append('picture', pic)
-
-    const {data: axios} = await http(token).put(`${URL}/private/profile`, form)
+    if(data.picture !== null) {
+      const form = new FormData()
+    form.append('userName', data.userName)
+    form.append('email', data.email)
+    form.append('phoneNumber', data.phoneNumber)
+    form.append('firstName', data.firstName)
+    form.append('lastName', data.lastName)
+    form.append('address', data.address)
+    form.append('picture', data.picture[0])
+    const {data: axios} = await http(token).patch(`${URL}/private/profile`, form)
     dispatch({
       type: 'PROFILE_UPDATE',
       payload: axios.results
     })
+    }else {
+      const form2 = new FormData()
+    form2.append('userName', data.userName)
+    form2.append('email', data.email)
+    form2.append('phoneNumber', data.phoneNumber)
+    form2.append('firstName', data.firstName)
+    form2.append('lastName', data.lastName)
+    form2.append('address', data.address)
+    const {data: axios} = await http(token).patch(`${URL}/private/profile`, form2)
+    dispatch({
+      type: 'PROFILE_UPDATE',
+      payload: axios.results
+    })
+    }
+    
   }
 }
