@@ -23,6 +23,9 @@ export const authLogin = (email, password) => {
         type: 'AUTH_LOGIN_FAILED',
         payload: err.response.data.message
       })
+      setTimeout(() => {
+        dispatch({type: 'AUTH_RESET'});
+      }, 3000);
     }
   }
 }
@@ -44,6 +47,9 @@ export const authRegister = (email, password, phoneNumber) => {
         type: 'AUTH_REGISTER_FAILED',
         payload: err.response.data.message
       })
+      setTimeout(() => {
+        dispatch({type: 'AUTH_RESET'});
+      }, 3000);
     }
   }
 }

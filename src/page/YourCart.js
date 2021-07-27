@@ -5,7 +5,7 @@ import { createTransaction } from '../redux/actions/transaction';
 
 class YourCart extends Component {
   state = {
-    payment_method: ''
+    payment_method: 'Bank Account'
   }
   onPayment = (e) =>{
     e.preventDefault()
@@ -50,18 +50,18 @@ class YourCart extends Component {
     
     return (
       <React.Fragment>
-      <div className="bgcart flex justify-center">
+      <div className="bgcart flex flex-1 justify-center">
         <div className="flex flex-col mx-32">
-            <div className="flex flex-col pb-16">
-                <div className="font-bold text-4xl text-white w-80 pt-14">Checkout your item now!</div>
+            <div className="flex flex-col pb-8 md:pb-16">
+                <div className="font-bold text-3xl md:text-4xl text-white w-80 pt-14">Checkout your item now!</div>
             </div>
-            <div className="flex flex-row">
-                <div className="flex flex-col pr-40">
+            <div className="flex flex-col items-center md:flex-row">
+                <div className="flex flex-col md:pr-40">
                     <div className="flex flex-1 flex-col bg-white rounded-xl" >
                         <div className="flex flex-col">
                             <div className="font-bold text-2xl py-10 text-yellow-900 text-center ">Order Summary</div>
                         </div>
-                        <div className="flex flex-1 flex-col pb-8 border-b mx-10 border-gray-300">
+                        <div className="flex flex-1 flex-col pb-8 border-b mx-4 md:mx-10 border-gray-300">
 
                         {items?.map(item => (
                               <div key={item.id} className="flex flex-row items-center mb-4">
@@ -109,7 +109,7 @@ class YourCart extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col mt-8 md:mt-0">
                     <div className="flex flex-row items-center">
                         <h2 className="text-white font-bold pb-4">Address details</h2>
                         <h2 className="text-white font-bold pb-4 text-xs pl-44">edit</h2>

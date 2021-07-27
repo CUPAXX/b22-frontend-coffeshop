@@ -56,8 +56,8 @@ class Product extends Component {
     const { data3 } = this.props.cateItem
     return (
         <React.Fragment>
-        <div className="flex flex-row border-t-2 border-gray-300 mb-40">
-          <div className="flex flex-col w-96 items-center border-r-2">
+        <div className="flex flex-row border-t-2 border-gray-300 md:mb-40">
+          <div className="hidden md:flex flex-col w-96 items-center border-r-2">
               <h1 className="text-center font-bold text-2xl mt-8 text-yellow-900">Promo for you</h1>
               <h2 className="text-center text-xs mt-10">Coupons will be updated every weeks</h2>
               <h2 className="text-center text-xs mb-10">Check them out! </h2>
@@ -91,30 +91,30 @@ class Product extends Component {
           </div>
           <div className="flex-1 flex flex-col mb-20">
             {/* search */}
-          <div className="p-8">
-              <div className="bg-gray-50 flex items-center mx-24 rounded-full shadow-xl">
-                <input onKeyDown={(e) => this.redirect(e)} value={this.state.search} onChange={e=>this.setState({search:e.target.value})} className=" bg-gray-50 rounded-l-full w-full  py-4 px-6 text-gray-700 leading-tight focus:outline-none" id="search" type="text" placeholder="Search"/>
+          <div className="py-8 md:p-8">
+              <div className="bg-gray-50 flex items-center mx-5 md:mx-24 rounded-full shadow-xl">
+                <input onKeyDown={(e) => this.redirect(e)} value={this.state.search} onChange={e=>this.setState({search:e.target.value})} className=" bg-gray-50 rounded-l-full w-full  py-4 px-4 md:px-6 text-gray-700 leading-tight focus:outline-none" id="search" type="text" placeholder="Search"/>
                 
-                <select value={this.state.sort} onChange={e=>this.setState({sort:e.target.value})} id="sort">
-                  <option value="productName">Product Name</option>
-                  <option value="price">Price</option>
+                <select className="md:text-base text-xs" value={this.state.sort} onChange={e=>this.setState({sort:e.target.value})} id="sort">
+                  <option className="md:text-base text-xs" value="productName">Product Name</option>
+                  <option className="md:text-base text-xs" value="price">Price</option>
                 </select>
 
-                <div className="p-4">
-                  <button onClick={this.data} className="bg-yellow-400 text-yellow-900 rounded-full p-2 hover:bg-yellow-200 focus:outline-none w-12 h-12 flex items-center justify-center">
-                  <i className="fa fa-search" style={{fontSize: 20}}></i>
+                <div className="p-2 md:p-4">
+                  <button onClick={this.data} className="bg-yellow-400 text-yellow-900 rounded-full p-2 hover:bg-yellow-200 focus:outline-none md:w-12 w-8 md:h-12 h-8 flex items-center justify-center">
+                  <i className="fa fa-search text-lg md:text-2xl" ></i>
                   </button>
                 </div>
               </div>
           </div>
             
-              <div className="flex flex-row justify-center my-5">
+              <div className="flex flex-row justify-center md:my-5">
                 {data2.map(cate => (
-                   <a key={cate.id} onClick={() => this.props.getItemCategory(cate.id)} className="cursor-pointer hover:underline capitalize hover:text-yellow-900 font-medium text-gray-400 mx-5">{cate.categoryName}</a>
+                   <a key={cate.id} onClick={() => this.props.getItemCategory(cate.id)} className="cursor-pointer hover:underline capitalize hover:text-yellow-900 text-xs md:text-base font-medium text-gray-400 mx-2 md:mx-5">{cate.categoryName}</a>
                 ))}
 
               </div>
-              <div className="grid grid-cols-4 mx-40 justify-center">
+              <div className="grid grid-cols-2 md:grid-cols-4 mx-10 md:mx-40 justify-center">
 
                 {/* {this.props.item < 1 ? data2.map(product)}
                 <Link to={`/productdetail/${item.id}`} key={item.id.toString}>

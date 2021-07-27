@@ -27,17 +27,17 @@ export function Counter({
     ;
   };
   return (
-    <div className="flex flex-row space-x-4 items-center text-xl font-bold">
+    <div className="flex flex-row space-x-2 md:space-x-4  items-center text-base md:text-xl font-bold">
       <button
         onClick={() => onCount("minus")}
-        className="font-bold focus:outline-none w-8 h-8 bg-yellow-400 text-xl text-center rounded-full"
+        className=" flex justify-center items-center font-bold focus:outline-none w-6 h-6 md:w-8 md:h-8 bg-yellow-400 rounded-full"
       >
         -
       </button>
       <p>{counter}</p>
       <button
         onClick={() => onCount("plus")}
-        className="font-bold focus:outline-none w-8 h-8 bg-yellow-400 text-xl text-center rounded-full"
+        className="flex justify-center items-center font-bold focus:outline-none w-6 h-6 md:w-8 md:h-8 bg-yellow-400 rounded-full"
       >
         +
       </button>

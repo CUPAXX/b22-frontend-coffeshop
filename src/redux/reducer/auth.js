@@ -35,7 +35,8 @@ const auth = (state = initialState, action) => {
     case 'AUTH_LOGIN_FAILED': {
       return {
         ...state,
-        errMsg: action.payload
+        errMsg: action.payload,
+        token: null
       }
     }
     case 'AUTH_LOGOUT': {
@@ -43,6 +44,14 @@ const auth = (state = initialState, action) => {
         ...state,
         token: null,
         errMsg: ''
+      }
+    }
+    case 'AUTH_RESET': {
+      return {
+        ...state,
+        token: null,
+        errMsg: '',
+        sccMsg: ''
       }
     }
     default: {

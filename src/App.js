@@ -16,8 +16,8 @@ import PrivateRoute from './components/PrivateRoute';
 
 const Footer = () => {
   return (
-    <div className="z-10 relative bg-gray-100 -mt-40 pb-20 ">
-        <div className="flex flex-row pt-32 mx-32 items-center">
+    <div className="z-10 relative bg-gray-100 pt-10 md:-mt-40 pb-20 ">
+        <div className="flex flex-row pt-10 md:pt-32 mx-10 md:mx-32 items-center">
             <div className="flex-1 flex flex-col space-y-4">
                 <div className="flex flex-row items-center">
                     <Link to="/" className="block">
@@ -45,21 +45,21 @@ const Footer = () => {
                 </div>
             </div>
 
-            <div className="flex flex-col space-y-4 mx-14">
-                <h1 className="font-semibold">Product</h1>
-                <a className="text-gray-700 text-sm" >Download</a>
-                <a className="text-gray-700 text-sm" >Pricing</a>
-                <a className="text-gray-700 text-sm" >Locations</a>
-                <a className="text-gray-700 text-sm" >Countries</a>
-                <a className="text-gray-700 text-sm" >Blog</a>
+            <div className="hidden md:flex md:flex-col space-y-4 mx-14">
+                <h1 className=" font-semibold">Product</h1>
+                <a className=" text-gray-700 text-sm" >Download</a>
+                <a className=" text-gray-700 text-sm" >Pricing</a>
+                <a className=" text-gray-700 text-sm" >Locations</a>
+                <a className=" text-gray-700 text-sm" >Countries</a>
+                <a className=" text-gray-700 text-sm" >Blog</a>
             </div>
-            <div className="flex flex-col space-y-4 mx-14">
-                <h1 className="font-semibold">Engage</h1>
-                <a className="text-gray-700 text-sm" >Coffe Shop ?</a>
-                <a className="text-gray-700 text-sm" >FAQ</a>
-                <a className="text-gray-700 text-sm" >About Us</a>
-                <a className="text-gray-700 text-sm" >Privacy Policy</a>
-                <a className="text-gray-700 text-sm" >Terms of Service</a>
+            <div className="hidden md:flex md:flex-col space-y-4 mx-14">
+                <h1 className=" font-semibold">Engage</h1>
+                <a className=" text-gray-700 text-sm" >Coffe Shop ?</a>
+                <a className=" text-gray-700 text-sm" >FAQ</a>
+                <a className=" text-gray-700 text-sm" >About Us</a>
+                <a className=" text-gray-700 text-sm" >Privacy Policy</a>
+                <a className=" text-gray-700 text-sm" >Terms of Service</a>
             </div>
         </div>
     </div>

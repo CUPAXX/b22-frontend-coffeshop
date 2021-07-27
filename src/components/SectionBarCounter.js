@@ -30,14 +30,14 @@ export function SectionBarCounter({
   };
 
   return (
-    <section className="z-50 relative -mt-14 mx-32 flex flex-row space-x-10">
-      <section className="bg-white h-36 w-full py-7 rounded-xl shadow-lg flex flex-row items-center justify-between px-24">
+    <section className="z-50 relative -mt-14 mx-10 md:mx-32 flex flex-col items-center md:flex-row md:space-x-10">
+      <section className="bg-white h-36 w-full py-7 rounded-xl shadow-lg flex flex-row items-center justify-between px-5 md:px-24">
         <img
           src={picture}
           alt="food"
-          className="w-24 h-24 rounded-full object-cover"
+          className=" h-10 w-10 md:w-24 md:h-24 rounded-full object-cover"
         />
-        <div className="flex-1 space-y-3 ml-10">
+        <div className="flex-1 md:space-y-3 ml-5 md:ml-10">
           <h4>{productName}</h4>
           {item.map((variants) => {
             return (
@@ -61,10 +61,10 @@ export function SectionBarCounter({
           })}
         </div>
       </section>
-      <section className="w-80 h-36 rounded-xl bg-yellow-400">
+      <section className="my-8 md:my-0 w-60 md:w-80 h-14 md:h-36 rounded-xl bg-yellow-400">
         <button
           onClick={onClick}
-          className="focus:outline-none w-full h-full text-2xl font-bold text-center"
+          className="focus:outline-none w-full h-full text-md md:text-2xl font-bold text-center"
         >
           CHECKOUT
         </button>

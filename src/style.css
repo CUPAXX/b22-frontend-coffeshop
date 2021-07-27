@@ -265,14 +265,67 @@ body {
     text-decoration: none;
     cursor: pointer;
   }
+  .labelHome1 {
+    width: 570px;
+  }
+  .itemLeft {
+    width: 500px;
+  }
+  .profileItemRight {
+    width: 800px;
+  }
+  .profileItemBot {
+    width: 630px;
+    height: 360px;
+  }
+  .itemHome {
+    width: 380px;
+    height: 230px;
+  }
+
+  
 
   @media only screen and (max-width: 768px) {
-    .section1 {
-      width: 600px;
-      height: 130px;
+    .bg2 {
+      display: none;
     }
-  }
-  .bancont {
-    width: 540px;
-    font-size: 19px;
+    .section1 {
+      display: none;
+    }
+    .bg-local {
+      height: 540px;
+    }
+    .labelHome1 {
+      width: 75%;
+    }
+    .profileItemRight {
+      width: 300px;
+    }
+    .bgprofile {
+      height: 1600px;
+    }
+    .profileItemBot {
+      width: 300px;
+      height: 420px;
+    }
+    .cb {
+      font-size:  15px;
+      padding-top: 3px;
+    }
+    .checkmark {
+      width: 18px;
+      height: 18px;
+    }
+    .bgcart {
+      height: auto;
+      background-size: contain;
+      padding-bottom: 30px;
+    }
+    .bgFpassword {
+      height: 600px;
+    }
+    .itemHome {
+      width: 280px;
+      height: 230px;
+    }
   }

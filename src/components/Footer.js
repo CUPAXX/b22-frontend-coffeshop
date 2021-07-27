@@ -6,7 +6,7 @@ export default function Footer () {
   return (
         <React.Fragment>
         <div className="z-10 relative bg-gray-100 -mt-40 pb-20 ">
-        <div className="flex flex-row pt-32 mx-32 items-center">
+        <div className="flex flex-row pt-32 mx-10 items-center">
             <div className="flex-1 flex flex-col space-y-4">
                 <div className="flex flex-row items-center">
                     <Link to="/" className="block">
@@ -15,7 +15,7 @@ export default function Footer () {
                       <Link to="/" className="block font-extrabold ml-4 pt-1">Coffee Shop</Link>
 
                 </div>
-                <div className="flex flex-row w-80 leading-loose">
+                <div className="flex flex-row w-80 sm:w-40 lg:w-80 leading-loose">
                     <h2 className="text-sm font-medium text-gray-700">Coffee Shop is a store that sells some good meals, and especially coffee. We provide high quality beans</h2>
                 </div>
                 <div className="flex flex-row">

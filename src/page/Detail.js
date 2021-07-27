@@ -124,14 +124,14 @@ function Detail (props) {
   return (
     
       <React.Fragment>
-      <div className=" bg-gray-200 mb-24">
-          <div className="flex flex-row pt-14 pb-20 justify-center" >
-          <div className="flex flex-col items-center mr-10" style={{ width: '500px' }}>
-              <h2 className="mr-20 pb-14 text-gray-500 capitalize ">Favorite & Promo <span className="font-bold text-yellow-900 capitalize"><i className="fa fa-angle-right font-bold"></i> {detail.productName} </span></h2>
+      <div className=" bg-gray-200 md:mb-24">
+          <div className="flex flex-col md:flex-row pt-14 pb-20 items-center justify-center" >
+          <div className="itemLeft flex flex-col justify-center items-center md:mr-10">
+              <h2 className="md:mr-20 pb-14 text-gray-500 capitalize ">Favorite & Promo <span className="font-bold text-yellow-900 capitalize"><i className="fa fa-angle-right font-bold"></i> {detail.productName} </span></h2>
 
               <div className="flex flex-col items-center">
 
-                  <img className="h-72 w-72 rounded-full" src={detail.picture} alt=""/>
+                  <img className="w-40 h-40 md:h-72 md:w-72 rounded-full" src={detail.picture} alt=""/>
 
               </div>
 
@@ -141,8 +141,8 @@ function Detail (props) {
               <button onClick={addCoba} className="btn3 text-white font-bold h-12 w-60 rounded-xl mb-5">Add to Cart</button>
               <button className="btn bg-yellow-400 h-12 w-60 rounded-xl text-yellow-900 font-bold mb-8">Ask a Staff</button>
           </div>
-          <div className="flex flex-col">
-              <div className="bg-white flex flex-col w-96 rounded-lg p-14" style={{ height: '450px' }}>
+          <div className="flex flex-col items-center">
+              <div className="bg-white flex flex-col mx-5 w-72 md:w-96 rounded-lg p-5 md:p-14" style={{ height: '450px' }}>
                   <div className="flex-1 flex flex-col">
 
                     <h2 className="text-yellow-900 pb-5">{detail.deliveryCondition}</h2>
@@ -150,11 +150,11 @@ function Detail (props) {
                     <p className="text-yellow-900">{detail.description}</p>
 
                   </div>
-                  <div className="flex flex-col h-20 items-center">
+                  <div className="flex flex-col md:h-20 items-center">
                       <h2 className="text-lg font-bold">Choose a size</h2>
                       <div className="flex flex-row space-x-8 pt-5">
                         {detail?.variant?.map((item, idx) => (
-                          <button key={item.id} onClick={() => getPrice(idx)} className="font-bold text-lg bg-yellow-400 w-12 h-12 rounded-full flex justify-center items-center">{item.code}</button>
+                          <button key={item.id} onClick={() => getPrice(idx)} className="font-bold text-base md:text-lg bg-yellow-400 md:w-12 w-10 md:h-12 h-10 rounded-full flex justify-center items-center">{item.code}</button>
                         ))}
 
                       </div>

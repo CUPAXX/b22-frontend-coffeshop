@@ -36,23 +36,23 @@ class SignUp extends Component {
         </div>
             <div className="flex-1 flex flex-col">
                 <div className="flex flex-row items-center py-8">
-                    <div className="flex ml-20 mr-3">
+                    <div className="flex ml-8 md:ml-20 mr-3">
                         <Link to="/" className="block ">
                             <img className="h-8" src="assets/logo.png" alt=""/>
                           </Link>
                           <Link to="/" className="flex font-bold text-xl pl-3">Coffee Shop</Link>
                     </div>
-                    <div className="flex ml-52">
+                    <div className="flex ml-10 md:ml-52">
                       <Link to="/login"><button className="btn h-10  px-8 text-yellow-900 rounded-full font-semibold bg-yellow-400 hover:bg-yellow-300">Login</button></Link>
                     </div>
 
                 </div>
-                  <div className="flex flex-col items-center mx-24 pt-20">
+                  <div className="flex flex-col items-center mx-10 md:mx-24 pt-20">
                       <h2 className="text-4xl font-bold text-yellow-900">Sign Up</h2>
                   </div>
-                  {errMsg !== '' && <div className="bg-red-300 text-red-900 font-bold mx-24 text-center py-2 px-2 mt-12 rounded">{errMsg }</div>}
-                  {succMsg !== '' && <div className="bg-green-300 text-green-900 font-bold mx-24 text-center py-2 px-2 mt-12 rounded">{succMsg }</div>}
-                  <form onSubmit={this.onRegister} className="flex-1 flex flex-col mx-24 pt-14">
+                  {errMsg !== '' && <div className="bg-red-300 text-red-900 font-bold mx-10 md:mx-24 text-center py-2 px-2 mt-12 rounded">{errMsg }</div>}
+                  {succMsg !== '' && <div className="bg-green-300 text-green-900 font-bold mx-10 md:mx-24 text-center py-2 px-2 mt-12 rounded">{succMsg }</div>}
+                  <form onSubmit={this.onRegister} className="flex-1 flex flex-col mx-10 md:mx-24 pt-14">
                       <h1 className="font-semibold text-gray-600 mb-2">Email Adress :</h1>
                       <input onChange={e => this.setState({ email: e.target.value })} className="border-2 mb-6 border-gray-400 p-4 rounded-2xl" type="email" placeholder="Enter your email adress"/>
                       <h1 className="font-semibold text-gray-600 mb-2">Password :</h1>
