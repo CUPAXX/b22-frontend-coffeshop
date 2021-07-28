@@ -1,4 +1,4 @@
-<h1 align='center'>Frontend - Coffeshop</h1>
+<h1 align='center'>Frontend - Coffeeshop</h1>
   <p align="center">
     <a href="https://b22-coffeeshop.netlify.app/">View Demo</a>
     ·
@@ -22,7 +22,7 @@ This project for Frontend user client from <a href="https://github.com/CUPAXX/b2
 
 1. <a href="https://nodejs.org/en/download/">Node Js</a>
 2. Node_modules `npm install` or `yarn install`
-3. Backend API #nama_projek [`here`](https://github.com/arkbootcamp/week4-web9-beginerBackend)
+3. Backend API Coffeeshop [`here`](https://github.com/CUPAXX/b22-backend-coffeeshop)
 
 ## Getting Started
 
