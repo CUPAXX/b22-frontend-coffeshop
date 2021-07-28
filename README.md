@@ -26,7 +26,7 @@ This project for Frontend user client from <a href="https://github.com/CUPAXX/b2
 
 ## Getting Started
 
-1. Download this Project or you can type `git clone #link_git`
+1. Download this Project or you can type `git clone https://github.com/CUPAXX/b22-frontend-coffeshop`
 2. Open app's directory in CMD or Terminal
 3. Type `npm install` or `yarn install`
 4. Add .env file at root folder project
