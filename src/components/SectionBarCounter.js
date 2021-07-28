@@ -30,7 +30,7 @@ export function SectionBarCounter({
   };
 
   return (
-    <section className="z-50 relative -mt-14 mx-10 md:mx-32 flex flex-col items-center md:flex-row md:space-x-10">
+    <section className="z-20 mb-20 -mt-14 mx-10 md:mx-32 flex flex-col items-center md:flex-row md:space-x-10">
       <section className="bg-white h-36 w-full py-7 rounded-xl shadow-lg flex flex-row items-center justify-between px-5 md:px-24">
         <img
           src={picture}

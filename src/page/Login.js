@@ -50,10 +50,10 @@ class Login extends Component {
                         <Link to="/" className="block ">
                             <img className="h-8" src="assets/logo.png" alt=""/>
                           </Link>
-                          <Link to="/" className="flex font-bold text-xl pl-3">Coffee Shop</Link>
+                          <Link to="/" className="flex font-bold text-lg md:text-xl pl-2 md:pl-3">Coffee Shop</Link>
                     </div>
                     <div className="flex ml-10 md:ml-52">
-                      <Link to="/signup"><button className="btn h-10  px-8 text-yellow-900 rounded-full font-semibold bg-yellow-400 hover:bg-yellow-300">Sign Up</button></Link>
+                      <Link to="/signup"><button className="btn h-8 md:h-10  px-6 md:px-8 text-yellow-900 rounded-full font-semibold bg-yellow-400 hover:bg-yellow-300">Sign Up</button></Link>
                     </div>
 
                 </div>

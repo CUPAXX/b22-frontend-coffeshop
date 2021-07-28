@@ -126,7 +126,7 @@ function Detail (props) {
       <React.Fragment>
       <div className=" bg-gray-200 md:mb-24">
           <div className="flex flex-col md:flex-row pt-14 pb-20 items-center justify-center" >
-          <div className="itemLeft flex flex-col justify-center items-center md:mr-10">
+          <div className=" flex flex-col justify-center items-center md:mr-10">
               <h2 className="md:mr-20 pb-14 text-gray-500 capitalize ">Favorite & Promo <span className="font-bold text-yellow-900 capitalize"><i className="fa fa-angle-right font-bold"></i> {detail.productName} </span></h2>
 
               <div className="flex flex-col items-center">
@@ -138,8 +138,8 @@ function Detail (props) {
               <h2 className="font-extrabold capitalize text-4xl pt-8 pb-4">{detail.productName}</h2>
                 <h2 className="font-medium text-lg pb-8"><span>IDR. {price.toLocaleString('en')}</span></h2>
 
-              <button onClick={addCoba} className="btn3 text-white font-bold h-12 w-60 rounded-xl mb-5">Add to Cart</button>
-              <button className="btn bg-yellow-400 h-12 w-60 rounded-xl text-yellow-900 font-bold mb-8">Ask a Staff</button>
+              <button onClick={addCoba} className="btn3 text-white text-sm md:text-base font-bold h-10 md:h-12 w-40 md:w-60 rounded-xl mb-5">Add to Cart</button>
+              <button className="btn bg-yellow-400 h-10 md:h-12 w-40 md:w-60 rounded-xl text-sm md:text-base text-yellow-900 font-bold mb-8">Ask a Staff</button>
           </div>
           <div className="flex flex-col items-center">
               <div className="bg-white flex flex-col mx-5 w-72 md:w-96 rounded-lg p-5 md:p-14" style={{ height: '450px' }}>

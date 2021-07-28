@@ -25,7 +25,7 @@ function Navbar (props)  {
   }
   return (
     <React.Fragment>
-      <header className="fixed md:sticky w-full flex flex-row justify-center items-center bg-white py-3 md:py-6 ">
+      <header className="fixed z-50 md:sticky w-full flex flex-row justify-center items-center bg-white py-3 md:py-6 ">
         <div className="flex flex-row md:w-44 items-center md:mr-40">
             <Link to="/" className="">
                 <img className="h-5 md:h-8" src="assets/logo.png" alt="logo"/>
@@ -77,7 +77,7 @@ function Navbar (props)  {
           
       </header>
       {showMenu === true ? (
-        <div className="flex md:hidden justify-end">
+        <div className="flex z-50 md:hidden justify-end">
           <div className="flex flex-1 flex-col rounded-bl-2xl bg-white p-3 mt-10 fixed">
             <Link to="/" className="text-gray-600 hover:underline text-sm md:text-base p-2 md:p-4">Home</Link>
             <Link to="/product" className=" text-gray-600 hover:underline text-sm md:text-base p-2 md:p-4">Product</Link>

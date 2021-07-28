@@ -16,7 +16,7 @@ import PrivateRoute from './components/PrivateRoute';
 
 const Footer = () => {
   return (
-    <div className="z-10 relative bg-gray-100 pt-10 md:-mt-40 pb-20 ">
+    <div className="z-10  bg-gray-100 pt-10 md:-mt-40 pb-20 ">
         <div className="flex flex-row pt-10 md:pt-32 mx-10 md:mx-32 items-center">
             <div className="flex-1 flex flex-col space-y-4">
                 <div className="flex flex-row items-center">

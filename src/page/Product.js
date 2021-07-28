@@ -95,7 +95,7 @@ class Product extends Component {
               <div className="bg-gray-50 flex items-center mx-5 md:mx-24 rounded-full shadow-xl">
                 <input onKeyDown={(e) => this.redirect(e)} value={this.state.search} onChange={e=>this.setState({search:e.target.value})} className=" bg-gray-50 rounded-l-full w-full  py-4 px-4 md:px-6 text-gray-700 leading-tight focus:outline-none" id="search" type="text" placeholder="Search"/>
                 
-                <select className="md:text-base text-xs" value={this.state.sort} onChange={e=>this.setState({sort:e.target.value})} id="sort">
+                <select className="bg-gray-50 md:text-base text-xs" value={this.state.sort} onChange={e=>this.setState({sort:e.target.value})} id="sort">
                   <option className="md:text-base text-xs" value="productName">Product Name</option>
                   <option className="md:text-base text-xs" value="price">Price</option>
                 </select>
