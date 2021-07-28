@@ -91,7 +91,7 @@ class Product extends Component {
           </div>
           <div className="flex-1 flex flex-col mb-20">
             {/* search */}
-          <div className="py-8 md:p-8">
+          <div className="py-14 md:p-8">
               <div className="bg-gray-50 flex items-center mx-5 md:mx-24 rounded-full shadow-xl">
                 <input onKeyDown={(e) => this.redirect(e)} value={this.state.search} onChange={e=>this.setState({search:e.target.value})} className=" bg-gray-50 rounded-l-full w-full  py-4 px-4 md:px-6 text-gray-700 leading-tight focus:outline-none" id="search" type="text" placeholder="Search"/>
                 
