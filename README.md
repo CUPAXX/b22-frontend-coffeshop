@@ -7,7 +7,7 @@
     <a href="https://github.com/CUPAXX/b22-frontend-coffeshop/pulls">Request Feature</a>
   </p>
 
-![Image Banner](screenshoot/home.jpg)
+![Image Banner](screnshoot/home.jpg)
 
 ## About The Project
 
