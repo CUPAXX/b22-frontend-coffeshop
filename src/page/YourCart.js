@@ -47,6 +47,7 @@ class YourCart extends Component {
   
   render () {
     const {items} = this.props.carts
+    console.log(items)
     
     return (
       <React.Fragment>
