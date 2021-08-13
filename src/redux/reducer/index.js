@@ -6,6 +6,7 @@ import profile from './profile'
 import category from './category'
 import cateItem from './cateItem'
 import transaction from './transaction'
+import chat from './chat'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage';
 
@@ -21,7 +22,8 @@ const reducer = combineReducers({
   profile,
   category,
   cateItem,
-  transaction
+  transaction,
+  chat
 })
 
 export default reducer

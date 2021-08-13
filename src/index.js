@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import reduxStore from './redux/store'
 import { Provider } from 'react-redux'
 import {PersistGate} from 'redux-persist/integration/react'
+// import 'bootstrap/dist/css/bootstrap.min.css'
 
 const redux = reduxStore()
 

@@ -11,6 +11,13 @@ body {
     height: 645px;
     z-index: -999;
 }
+
+.bgChat{
+  background-image: url(bg/bgChat.png);
+  height: 1184px;
+  z-index: -999;
+}
+
 .test.active{
     color: rgb(99, 39, 0);
     font-weight: 600;
@@ -303,6 +310,9 @@ body {
     }
     .bgprofile {
       height: 1600px;
+    }
+    .bgChat {
+      height: 1080px;
     }
     .profileItemBot {
       width: 300px;

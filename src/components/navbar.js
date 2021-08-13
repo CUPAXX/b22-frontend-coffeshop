@@ -52,7 +52,7 @@ function Navbar (props)  {
             ? <React.Fragment>
              
             <div className="ml-20">
-                <img className=" items-center h-10 w-10 relative" src="assets/chat.png" alt="chat"/>
+                <Link to="/chat"><img className=" items-center h-10 w-10 relative" src="assets/chat.png" alt="chat"/></Link> 
                 <div className="absolute -mt-11 -ml-2">
                     <div className="bg-yellow-900 w-4 h-4 flex justify-center items-center rounded-full font-bold text-white" style={{ fontSize: '10px' }}>1</div>
                 </div>

@@ -13,6 +13,7 @@ import Detail from './page/Detail'
 import { connect } from 'react-redux'
 import Navbar from './components/navbar';
 import PrivateRoute from './components/PrivateRoute';
+import Chat from './page/Chat'
 
 const Footer = () => {
   return (
@@ -85,6 +86,9 @@ class App extends React.Component {
         </PrivateRoute>
         <PrivateRoute path="/profile">
           <Profile/>
+        </PrivateRoute>
+        <PrivateRoute path="/chat">
+          <Chat />
         </PrivateRoute>
         <Route path="/login" component={Login}/>
         <Route path="/signup" component={SignUp}/>
