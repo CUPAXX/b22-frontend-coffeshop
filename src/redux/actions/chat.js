@@ -13,10 +13,36 @@ export const chatList = (token) => {
 
 export const chatAll = (phoneNumber, token) => {
   return async (dispatch) => {
+    console.log(phoneNumber)
     const { data } = await http(token).get(`${URL}/private/chat/all?user=${phoneNumber}`)
     dispatch({
       type: 'CHAT_GET_ALL',
       payload: data.results
     })
+  }
+}
+
+export const sendChat = (recipient, message, token) => {
+  return async (dispatch) => {
+    console.log(recipient)
+    console.log(message)
+    const form = new URLSearchParams()
+    form.append('recipient', recipient)
+    form.append('message', message)
+    try{
+      const {data} = await http(token).post(`${URL}/private/chat`, form.toString())
+      dispatch({
+        type: 'CHAT_SEND',
+        payload: data.message
+      })
+    } catch (err) {
+      dispatch({
+        type: 'CHAT_SEND_FAILED',
+        payload: err.response.data.message
+      })
+      setTimeout(() => {
+        dispatch({type: 'CHAT_RESET'});
+      }, 3000);
+    }
   }
 }
