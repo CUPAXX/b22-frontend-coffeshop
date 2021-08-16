@@ -24,8 +24,6 @@ export const chatAll = (phoneNumber, token) => {
 
 export const sendChat = (recipient, message, token) => {
   return async (dispatch) => {
-    console.log(recipient)
-    console.log(message)
     const form = new URLSearchParams()
     form.append('recipient', recipient)
     form.append('message', message)
@@ -38,6 +36,26 @@ export const sendChat = (recipient, message, token) => {
     } catch (err) {
       dispatch({
         type: 'CHAT_SEND_FAILED',
+        payload: err.response.data.message
+      })
+      setTimeout(() => {
+        dispatch({type: 'CHAT_RESET'});
+      }, 3000);
+    }
+  }
+}
+
+export const searchUser = (column, search, token) => {
+  return async (dispatch) => {
+    try {
+      const {data} = await http(token).get(`${URL}/private/chat/search?column=${column}&search=${search}`)
+      dispatch({
+        type: 'USER_SEARCH',
+        payload: data.results
+      })
+    } catch (err) {
+      dispatch({
+        type: 'USER_SEARCH_FAILED',
         payload: err.response.data.message
       })
       setTimeout(() => {

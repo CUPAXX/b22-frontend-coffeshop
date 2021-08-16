@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { profileUser } from '../redux/actions/profile'
 import { Icon } from '@material-ui/core';
+import user from '../bg/user.png'
+const { REACT_APP_BACKEND_URL: URL } = process.env
 
 function Navbar (props)  {
   const { auth } = props.auth
@@ -57,9 +59,15 @@ function Navbar (props)  {
                     <div className="bg-yellow-900 w-4 h-4 flex justify-center items-center rounded-full font-bold text-white" style={{ fontSize: '10px' }}>1</div>
                 </div>
               </div>
-              <Link to="/profile">
+              {data.picture !== `${URL}null` ? (
+                <Link to="/profile">
                 <img className=" items-center h-10 w-10 rounded-full" src={data.picture} alt="user"/>
               </Link>
+              ) : (
+                <Link to="/profile">
+                <img className=" items-center h-10 w-10 rounded-full" src={user} alt="user"/>
+              </Link>
+              ) }
             </React.Fragment>
 
             : (

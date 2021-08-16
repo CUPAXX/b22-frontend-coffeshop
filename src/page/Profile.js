@@ -6,6 +6,9 @@ import { withRouter } from 'react-router-dom';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton'
 
+import user from '../bg/user.png'
+const { REACT_APP_BACKEND_URL: URL } = process.env
+
 class Profile extends Component {
   state = {
     picture: null,
@@ -67,7 +70,11 @@ class Profile extends Component {
         <div className="flex flex-col bg-white w-full mx-10 mb-10 md:mb-0 md:h-80 md:w-64 rounded-lg">
             <div className="flex-1 flex flex-col items-center justify-center">
                 <div className="flex relative">
-                    <img className="md:w-28 md:h-28 w-20 h-20 rounded-full" src={data.picture} alt=""/>
+                    {data.picture !== `${URL}null` ? (
+                      <img className="md:w-28 md:h-28 w-20 h-20 rounded-full" src={data.picture} alt=""/>
+                    ) : (
+                      <img className="md:w-28 md:h-28 w-20 h-20 rounded-full" src={user} alt=""/>
+                    ) }
                     <input accept="image/*" id="icon-button-file" type="file" onChange={e=>this.setState({picture:e.target.files})} className="absolute"  style={{ display: 'none' }} />
                     <label className="flex justify-center items-center h-8 w-8 md:h-10 md:w-10 bg-yellow-900 rounded-full ml-12 mt-12 md:ml-20 md:mt-20 absolute" htmlFor="icon-button-file">
                         <IconButton  style={{ color: 'white'}} aria-label="upload picture" component="span">

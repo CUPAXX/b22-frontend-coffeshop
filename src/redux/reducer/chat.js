@@ -1,6 +1,7 @@
 const initialState = {
   data: [],
   allData: [],
+  userData: [],
   sccMsg: '',
   errMsg: ''
 }
@@ -17,6 +18,18 @@ const chat = (state = initialState, action) => {
       return {
         ...state,
         allData: action.payload
+      }
+    }
+    case 'USER_SEARCH': {
+      return {
+        ...state,
+        userData: action.payload
+      }
+    }
+    case 'USER_SEARCH_FAILED': {
+      return {
+        ...state,
+        errMsg: action.payload
       }
     }
     case 'CHAT_SEND': {
@@ -37,7 +50,8 @@ const chat = (state = initialState, action) => {
       return {
         ...state,
         sccMsg: '',
-        errMsg: ''
+        errMsg: '',
+        userData: []
       }
     }
     

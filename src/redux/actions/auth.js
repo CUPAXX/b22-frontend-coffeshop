@@ -18,6 +18,9 @@ export const authLogin = (email, password) => {
         type: 'AUTH_LOGIN',
         payload: data.results.token
       })
+      setTimeout(() => {
+        dispatch({type: 'AUTH_RESET'});
+      }, 3000);
     } catch (err) {
       dispatch({
         type: 'AUTH_LOGIN_FAILED',
@@ -27,6 +30,7 @@ export const authLogin = (email, password) => {
         dispatch({type: 'AUTH_RESET'});
       }, 3000);
     }
+    
   }
 }
 
@@ -42,6 +46,9 @@ export const authRegister = (email, password, phoneNumber) => {
         type: 'AUTH_REGISTER',
         payload: data.message
       })
+      setTimeout(() => {
+        dispatch({type: 'AUTH_RESET'});
+      }, 3000);
     } catch (err) {
       dispatch({
         type: 'AUTH_REGISTER_FAILED',
@@ -51,6 +58,7 @@ export const authRegister = (email, password, phoneNumber) => {
         dispatch({type: 'AUTH_RESET'});
       }, 3000);
     }
+    
   }
 }
 
