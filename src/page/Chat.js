@@ -93,6 +93,7 @@ class Chat extends Component {
   scrollToBottom = () => {
    this.el && this.el.scrollIntoView({ behavior: 'smooth', block: 'nearest'});
   }
+  
   onSearch = (e) => {
     if(e.keyCode === 13) {
     const column = this.state.column
@@ -104,10 +105,10 @@ class Chat extends Component {
       })
     })
     }
-    setTimeout(
-      () => this.setState({ searchData: [] }), 
-      9000
-    );
+    // setTimeout(
+    //   () => this.setState({ searchData: [] }), 
+    //   9000
+    // );
   }
   onSearchButton = (e) => {
     e.preventDefault()
@@ -119,22 +120,26 @@ class Chat extends Component {
         searchData: this.props.chat.userData
       })
     })
-    setTimeout(
-      () => this.setState({ searchData: [] }), 
-      9000
-    );
   }
 
-  onRedirect = (dataSearch) => {
-    this.setState({
+  onRedirect = async (dataSearch) => {
+    const {token} = this.props.auth
+    await this.setState({
       userSelected: dataSearch,
       allChat: []
+    })
+    const phoneNumber = await this.state.userSelected?.phoneNumber
+   await this.props.chatAll(phoneNumber, token).then(() => {
+      this.setState({
+        allChat: this.props.chat.allData
+      })
     })
   }
   
 
   render() {
     const {allData} = this.props.chat
+    console.log(this.state.userSelected)
     return (
       <div className="bgChat">
         <div className="flex flex-1 flex-row justify-center h-screen pt-20 px-36">
@@ -184,7 +189,7 @@ class Chat extends Component {
           <div className="flex flex-col overflow-y-scroll overscroll-none -my-4 w-full">
           {this.state.chatList.map(chat => {
             return chat.userName !== this.props.profile.data.userName  ?
-            <div key={chat.id} onClick={() => this.onDetailChat(chat.phoneNumber)} className="flex flex-row border-b cursor-pointer pt-8 w-full border-white p-3">
+            <div key={chat.id} onClick={() => this.onRedirect(chat)} className="flex flex-row border-b cursor-pointer pt-8 w-full border-white p-3">
               <img src={chat.picture} className="rounded-full w-16 h-16" />
               <div className="flex flex-col px-5">
                 <h2 className="text-white font-bold">{chat.userName}</h2>
@@ -269,7 +274,9 @@ class Chat extends Component {
                 <h2 className="font-bold text-2xl text-gray-600 pb-12">{this.state.userSelected.userName}</h2>
                  
                   <div className="flex flex-col flex-1 overflow-y-scroll overscroll-none max-h-72" >
-                    {this.state.allChat.map(data => {
+                    {this.state.allChat.length > 0 ? (
+                      <React.Fragment>
+                        {this.state.allChat.map(data => {
                       return data.sender !== this.props.profile.data.phoneNumber  ?
                       <React.Fragment key={data.id}>
                         <div key={data.id} className="flex flex-row border-b justify-start mb-8 border-yellow-900 p-3">
@@ -292,6 +299,10 @@ class Chat extends Component {
                     
                     </React.Fragment>
                     })}
+                      </React.Fragment>
+                    ) :  (
+                      <div></div>
+                    )}
                     <div className="text-center text-white" ref={el => { this.el = el; }}>bla</div>
                     
 

@@ -13,7 +13,6 @@ export const chatList = (token) => {
 
 export const chatAll = (phoneNumber, token) => {
   return async (dispatch) => {
-    console.log(phoneNumber)
     const { data } = await http(token).get(`${URL}/private/chat/all?user=${phoneNumber}`)
     dispatch({
       type: 'CHAT_GET_ALL',
