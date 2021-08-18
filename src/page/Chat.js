@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import chatImg from '../bg/chatImg.png'
-import {chatList, chatAll, sendChat, searchUser} from '../redux/actions/chat'
+import {chatList, chatAll, sendChat, searchUser, uploadFile, deleteChat} from '../redux/actions/chat'
 import { connect } from 'react-redux'
 import { profileUser} from '../redux/actions/profile'
 import { io } from "socket.io-client";
-import { Search } from '@material-ui/icons'
+import IconButton from '@material-ui/core/IconButton'
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
+import Swal from 'sweetalert2'
+
 const { REACT_APP_BACKEND_URL: URL } = process.env
 
 const socket = io(`${URL}`)
@@ -17,11 +20,11 @@ class Chat extends Component {
     search: '',
     column: 'userName',
     chatList: [],
-    allChat: [],
+    allChat: null,
     logged: {},
     chatData: '',
     searchData: [],
-    userSelected: []
+    userSelected: null
   }
   
 
@@ -31,7 +34,6 @@ class Chat extends Component {
     this.scrollToBottom()
     const {phoneNumber} = this.props.profile.data
     socket.on(phoneNumber, (data) => {
-      console.log(socket.id, data);
       this.onChatList()
       this.onDetailChat(data.sender)
     });
@@ -42,7 +44,6 @@ class Chat extends Component {
     this.scrollToBottom()
     const {phoneNumber} = this.props.profile.data
     socket.on(phoneNumber, (data) => {
-      console.log(socket.id, data);
       this.onChatList()
       this.onDetailChat(data.sender)
     });
@@ -122,24 +123,59 @@ class Chat extends Component {
     })
   }
 
-  onRedirect = async (dataSearch) => {
+  onRedirect =  (dataSearch) => {
     const {token} = this.props.auth
-    await this.setState({
+     this.setState({
       userSelected: dataSearch,
-      allChat: []
+      allChat: [],
+      search: '',
+      searchData: []
+    }, () => {
+      const phoneNumber =  this.state.userSelected?.phoneNumber
+    this.props.chatAll(phoneNumber, token)
     })
-    const phoneNumber = await this.state.userSelected?.phoneNumber
-   await this.props.chatAll(phoneNumber, token).then(() => {
-      this.setState({
-        allChat: this.props.chat.allData
-      })
+    
+  }
+
+  uploadFile = (e) => {
+    const {token} = this.props.auth
+    const recipient = this.state.userSelected.phoneNumber
+    this.props.uploadFile(recipient, e.target.files[0], token).then(() => {
+      this.onChatList()
     })
+  }
+
+  onDelete = (id) => {
+    const {token} = this.props.auth
+    const recipient = this.state.userSelected.phoneNumber
+   
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.props.deleteChat(recipient, id, token).then(() => {
+          this.onChatList()
+        })
+        
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+      }
+    })
+    
   }
   
 
   render() {
     const {allData} = this.props.chat
-    console.log(this.state.userSelected)
     return (
       <div className="bgChat">
         <div className="flex flex-1 flex-row justify-center h-screen pt-20 px-36">
@@ -165,16 +201,15 @@ class Chat extends Component {
             
             <div className="bg-gray-50 flex flex-col flex-initial absolute mt-20 w-72 rounded-b-2xl overflow-y-scroll overscroll-none max-h-80">
               {this.state.searchData.map(dataSearch => {
-              return dataSearch.userName !== this.props.profile.data.userName  ?
+              return (
               <div key={dataSearch.id} onClick={() => this.onRedirect(dataSearch)} className="flex flex-row cursor-pointer pt-8 p-3">
               <img src={dataSearch.picture} className="rounded-full w-16 h-16" />
                 <div className="flex flex-col px-5">
                   <h2 className="text-gray-500 font-bold">{dataSearch.userName}</h2>
                   <h3 className="text-gray-500 text-sm">{dataSearch.phoneNumber}</h3>
                 </div>
-              </div>
-              :
-              <div></div>
+              </div>)
+
               })}
           </div>
             
@@ -188,16 +223,19 @@ class Chat extends Component {
           
           <div className="flex flex-col overflow-y-scroll overscroll-none -my-4 w-full">
           {this.state.chatList.map(chat => {
-            return chat.userName !== this.props.profile.data.userName  ?
+            return (
             <div key={chat.id} onClick={() => this.onRedirect(chat)} className="flex flex-row border-b cursor-pointer pt-8 w-full border-white p-3">
               <img src={chat.picture} className="rounded-full w-16 h-16" />
               <div className="flex flex-col px-5">
                 <h2 className="text-white font-bold">{chat.userName}</h2>
-                <h3 className="text-white text-sm">{chat.message}</h3>
+                {chat.message !== null ? (
+                  <h3 className="text-white text-sm">{chat.message}</h3>
+                ) : (
+                  <h3 className="text-white text-sm">Mengirim Gambar</h3>
+                )}
               </div>
-            </div>
-          :
-          <div></div>
+            </div>)
+          
           })}
           </div>
           
@@ -213,31 +251,39 @@ class Chat extends Component {
           </div>
           <div className="bg-white flex flex-col rounded-r-lg flex-1 p-12">
             {/* {this.props.chat.allData.length > 0 ? ( */}
-              {this.state.userSelected.length === 0 ? (
+              {this.state.userSelected === null ? (
                 <React.Fragment>
                 
-                {this.props.chat.allData.length > 0 ? (
+                {allData.length > 0 ? (
                   <React.Fragment>
                     <h2 className="font-bold text-2xl text-gray-600 pb-12">{allData[0].userName}</h2>
                  
                  <div className="flex flex-col flex-1 overflow-y-scroll overscroll-none max-h-72" >
-                   {this.state.allChat.map(data => {
+                   {allData.map(data => {
                      return data.sender !== this.props.profile.data.phoneNumber  ?
                      <React.Fragment key={data.id}>
-                       <div key={data.id} className="flex flex-row border-b justify-start mb-8 border-yellow-900 p-3">
+                       <div key={data.id} className="flex flex-row border-b justify-start mb-8 border-yellow-900 p-3" onClick={() => this.onDelete(data.id)}>
                          <img src={data.picture} className="rounded-full w-10 h-10" />
                          <div className="flex flex-col px-8 justify-center">
-                             <h3 className="text-gray-600 text-sm">{data.message}</h3>
+                             {data.message !== null ? (
+                               <h3 className="text-gray-600 text-sm">{data.message}</h3>
+                             ): (
+                              <img className="max-w-24 max-h-24" src={data.fileUpload} />
+                             )}
                          </div>
                        </div>
                        
                      </React.Fragment>
                      
                    :
-                   <React.Fragment>
-                     <div className="flex flex-row justify-end border-b mb-8 border-yellow-900 p-3">
+                   <React.Fragment key={data.id}>
+                     <div key={data.id} className="flex flex-row justify-end border-b mb-8 border-yellow-900 p-3" onClick={() => this.onDelete(data.id)}>
                      <div className="flex flex-col px-8 justify-center">
-                       <h3 className="text-gray-600 text-sm text-right">{data.message}</h3>
+                        {data.message !== null ? (
+                          <h3 className="text-gray-600 text-sm">{data.message}</h3>
+                        ): (
+                          <img className="max-w-24 max-h-24" src={data.fileUpload} />
+                        )}
                      </div>
                      <img src={this.props.profile.data.picture} className="rounded-full w-10 h-10" />
                    </div>
@@ -245,15 +291,21 @@ class Chat extends Component {
                    </React.Fragment>
                    })}
                    <div className="text-center text-white" ref={el => { this.el = el; }}>bla</div>
-                   
+                  
 
                    
                  </div>
                  
 
-                 <div className="flex justify-center mt-12">
-                   <input onKeyDown={(e) => this.onSend(e)} value={this.state.chatData} onChange={e=>this.setState({chatData:e.target.value})} className="bg-gray-100 p-4 w-full text-sm rounded-xl" type="text" placeholder="Type a message..."/>
-                 </div>
+                 <div className="flex items-center bg-gray-100 rounded-xl pr-5 mt-12">
+                    <input onKeyDown={(e) => this.onSend(e)} value={this.state.chatData} onChange={e=>this.setState({chatData:e.target.value})} className="bg-gray-100 p-4 w-full text-sm rounded-xl " type="text" placeholder="Type a message..."/>
+                    <input accept="image/*" id="icon-button-file" type="file" onChange={e=>this.setState({picture:e.target.files})} className=""  style={{ display: 'none' }} />
+                    <label className="flex justify-center items-center h-8 w-8 md:h-10 md:w-10 bg-gray-100 rounded-full" htmlFor="icon-button-file">
+                        <IconButton  className="text-gray-600" aria-label="upload picture" component="span">
+                            <CameraAltIcon className="" />
+                        </IconButton>
+                    </label>
+                  </div>
                   </React.Fragment>
                 ) : (
                   <React.Fragment>
@@ -274,15 +326,19 @@ class Chat extends Component {
                 <h2 className="font-bold text-2xl text-gray-600 pb-12">{this.state.userSelected.userName}</h2>
                  
                   <div className="flex flex-col flex-1 overflow-y-scroll overscroll-none max-h-72" >
-                    {this.state.allChat.length > 0 ? (
+                  
                       <React.Fragment>
-                        {this.state.allChat.map(data => {
+                        {allData.map(data => {
                       return data.sender !== this.props.profile.data.phoneNumber  ?
                       <React.Fragment key={data.id}>
-                        <div key={data.id} className="flex flex-row border-b justify-start mb-8 border-yellow-900 p-3">
+                        <div key={data.id} className="flex flex-row border-b justify-start mb-8 border-yellow-900 p-3" onClick={() => this.onDelete(data.id)}>
                           <img src={data.picture} className="rounded-full w-10 h-10" />
                           <div className="flex flex-col px-8 justify-center">
-                              <h3 className="text-gray-600 text-sm">{data.message}</h3>
+                          {data.message !== null ? (
+                               <h3 className="text-gray-600 text-sm">{data.message}</h3>
+                             ): (
+                              <img className="max-w-24 max-h-24" src={data.fileUpload} />
+                             )}
                           </div>
                         </div>
                         
@@ -290,9 +346,13 @@ class Chat extends Component {
                       
                     :
                     <React.Fragment>
-                      <div className="flex flex-row justify-end border-b mb-8 border-yellow-900 p-3">
+                      <div className="flex flex-row justify-end border-b mb-8  border-yellow-900 p-3" onClick={() => this.onDelete(data.id)}>
                       <div className="flex flex-col px-8 justify-center">
-                        <h3 className="text-gray-600 text-sm text-right">{data.message}</h3>
+                         {data.message !== null ? (
+                               <h3 className="text-gray-600 text-sm">{data.message}</h3>
+                             ): (
+                              <img className="max-w-24 max-h-24" src={data.fileUpload} />
+                             )}
                       </div>
                       <img src={this.props.profile.data.picture} className="rounded-full w-10 h-10" />
                     </div>
@@ -300,9 +360,7 @@ class Chat extends Component {
                     </React.Fragment>
                     })}
                       </React.Fragment>
-                    ) :  (
-                      <div></div>
-                    )}
+                    
                     <div className="text-center text-white" ref={el => { this.el = el; }}>bla</div>
                     
 
@@ -310,8 +368,15 @@ class Chat extends Component {
                   </div>
                   
 
-                  <div className="flex justify-center mt-12">
-                    <input onKeyDown={(e) => this.onSend(e)} value={this.state.chatData} onChange={e=>this.setState({chatData:e.target.value})} className="bg-gray-100 p-4 w-full text-sm rounded-xl" type="text" placeholder="Type a message..."/>
+                  <div className="flex items-center bg-gray-100 rounded-xl pr-5 mt-12">
+                    <input onKeyDown={(e) => this.onSend(e)} value={this.state.chatData} onChange={e=>this.setState({chatData:e.target.value})} className="bg-gray-100 p-4 w-full text-sm rounded-xl " type="text" placeholder="Type a message..."/>
+
+                    <input accept="image/*" id="icon-button-file" type="file" onChange={this.uploadFile} className=""  style={{ display: 'none' }} />
+                    <label className="flex justify-center items-center h-8 w-8 md:h-10 md:w-10 bg-gray-100 rounded-full" htmlFor="icon-button-file">
+                        <IconButton  className="text-gray-600" aria-label="upload picture" component="span">
+                            <CameraAltIcon className="" />
+                        </IconButton>
+                    </label>
                   </div>
                 
               </React.Fragment>
@@ -341,6 +406,6 @@ const mapStateToProps = state => ({
   profile: state.profile,
 })
 
-const mapDispatchToProps = { profileUser, chatList, chatAll, sendChat, searchUser }
+const mapDispatchToProps = { profileUser, chatList, chatAll, sendChat, searchUser, uploadFile , deleteChat}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat)

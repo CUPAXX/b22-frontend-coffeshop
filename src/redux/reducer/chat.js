@@ -39,7 +39,21 @@ const chat = (state = initialState, action) => {
         errMsg: ''
       }
     }
+    case 'UPLOAD_SEND': {
+      return {
+        ...state,
+        sccMsg: action.payload,
+        errMsg: ''
+      }
+    }
     case 'CHAT_SEND_FAILED': {
+      return {
+        ...state,
+        errMsg: action.payload,
+        sccMsg: ''
+      }
+    }
+    case 'UPLOAD_SEND_FAILED': {
       return {
         ...state,
         errMsg: action.payload,
@@ -52,6 +66,13 @@ const chat = (state = initialState, action) => {
         sccMsg: '',
         errMsg: '',
         userData: []
+      }
+    }
+
+    case 'CHAT_ROOM_CLEAR': {
+      return {
+        ...state,
+        allData: []
       }
     }
     

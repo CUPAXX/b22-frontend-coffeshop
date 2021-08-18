@@ -13,6 +13,9 @@ export const chatList = (token) => {
 
 export const chatAll = (phoneNumber, token) => {
   return async (dispatch) => {
+    dispatch({
+      type: 'CHAT_ROOM_CLEAR'
+    })
     const { data } = await http(token).get(`${URL}/private/chat/all?user=${phoneNumber}`)
     dispatch({
       type: 'CHAT_GET_ALL',
@@ -61,5 +64,54 @@ export const searchUser = (column, search, token) => {
         dispatch({type: 'CHAT_RESET'});
       }, 3000);
     }
+  }
+}
+
+export const uploadFile = (recipient, picture, token) => {
+  return async (dispatch) => {
+    console.log(picture)
+    const form = new FormData()
+    form.append('recipient', recipient)
+    form.append('picture', picture)
+    try {
+      const {data} = await http(token).post(`${URL}/private/chat/upload`, form)
+      dispatch({
+        type: 'UPLOAD_SEND',
+        payload: data.message
+      })
+      const { data: axios } = await http(token).get(`${URL}/private/chat/all?user=${recipient}`)
+      dispatch({
+        type: 'CHAT_GET_ALL',
+        payload: axios.results
+      })
+    } catch(err) {
+      dispatch({
+        type: 'UPLOAD_SEND_FAILED',
+        payload: err.response.message
+      })
+      setTimeout(() => {
+        dispatch({type: 'CHAT_RESET'});
+      }, 3000);
+    }
+  }
+}
+
+export const deleteChat = (recipient, id, token) => {
+  return async (dispatch) => {
+    const form = new URLSearchParams()
+    form.append('recipient', recipient)
+    const {data} = await http(token).delete(`${URL}/private/chat/${id}`, {data: form})
+
+    const { data: axios } = await http(token).get(`${URL}/private/chat`)
+    dispatch({
+      type: 'CHAT_LIST_USER',
+      payload: axios.results
+    })
+
+    const { data: axios2 } = await http(token).get(`${URL}/private/chat/all?user=${recipient}`)
+      dispatch({
+        type: 'CHAT_GET_ALL',
+        payload: axios2.results
+      })
   }
 }
