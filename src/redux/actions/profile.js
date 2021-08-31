@@ -41,7 +41,7 @@ export const updateProfile = (data, token) => {
     form.append('firstName', data.firstName)
     form.append('lastName', data.lastName)
     form.append('address', data.address)
-    form.append('picture', data.picture[0])
+    form.append('picture', data.picture)
     const {data: axios} = await http(token).patch(`${URL}/private/profile`, form)
     dispatch({
       type: 'PROFILE_UPDATE',

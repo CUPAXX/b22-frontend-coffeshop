@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
 import CreateIcon from '@material-ui/icons/Create';
 import IconButton from '@material-ui/core/IconButton'
+import Swal from 'sweetalert2'
 
 import user from '../bg/user.png'
 const { REACT_APP_BACKEND_URL: URL } = process.env
@@ -33,7 +34,31 @@ class Profile extends Component {
           address: this.props.profile.data.address
         })
       })
+  }
 
+  uploadFile = (e) => {
+    const max = 61440
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+    if (e.target.files[0].size <= max) {
+      this.setState({
+        picture: e.target.files[0]
+      })
+    } else {
+      Toast.fire({
+        icon: 'error',
+        title: 'Max file only 60kb'
+      })
+    }
   }
 
 
@@ -75,7 +100,7 @@ class Profile extends Component {
                     ) : (
                       <img className="md:w-28 md:h-28 w-20 h-20 rounded-full" src={user} alt=""/>
                     ) }
-                    <input accept="image/*" id="icon-button-file" type="file" onChange={e=>this.setState({picture:e.target.files})} className="absolute"  style={{ display: 'none' }} />
+                    <input accept="image/*" id="icon-button-file" type="file" onChange={this.uploadFile} className="absolute"  style={{ display: 'none' }} />
                     <label className="flex justify-center items-center h-8 w-8 md:h-10 md:w-10 bg-yellow-900 rounded-full ml-12 mt-12 md:ml-20 md:mt-20 absolute" htmlFor="icon-button-file">
                         <IconButton  style={{ color: 'white'}} aria-label="upload picture" component="span">
                             <CreateIcon className="absolute" />
