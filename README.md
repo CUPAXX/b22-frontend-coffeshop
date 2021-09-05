@@ -11,7 +11,8 @@
 
 ## About The Project
 
-This project for Frontend user client from <a href="https://github.com/CUPAXX/b22-backend-coffeeshop">this Backend</a>
+Web application for ordering food and drinks,
+this application is made using ReactJs as a framework and Tailwind CSS as styling
 
 ## Built With
 
@@ -47,6 +48,7 @@ REACT_APP_BACKEND_URL=http://localhost:8080 //[Backend API]
 <li>Transaction</li>
 <li>Add to Cart</li>
 <li>History Transaction</li>
+<li>Chat</li>
 </ul>
 
 ## Acknowledgements
