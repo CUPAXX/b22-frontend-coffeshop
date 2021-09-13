@@ -59,4 +59,4 @@ REACT_APP_BACKEND_URL=http://localhost:8080 //[Backend API]
 
 ## License
 
-© [M Fiqry Arahmansyah](https://github.com/CUPAXX)
+© [M Fiqry Arahmansyah](https://www.instagram.com/xfiqryx/)
